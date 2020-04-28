@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/static/css/addNews.css}">
+    <script th:src="@{/static/js/jquery.js}"></script>
+</head>
+<body>
+<div class="container-white">
+    <div class="edit-wrap">
+        <!-- 文章 -->
+        <div class="publish-editor">
+            <div class="syl-editor-toolbar" style="position: relative">
+                <div class="syl-toolbar">
+                    <div class="syl-toolbar-tool">
+                        <i class="iconfont iconbold"></i>
+                    </div>
+                    <span class="syl-toolbar-divider"></span>
+                    <div class="syl-toolbar-tool">
+                        <span class="box-upload-icon"></span>
+                        <form action="" class="box-upload-form" onsubmit="return false;">
+                            <input type="file" class="box-upload-file" id="imgs">
+                        </form>
+                    </div>
+                    <span class="syl-toolbar-divider"></span>
+                    <div class="syl-toolbar-tool">
+                        <i class="iconfont iconxiahuaxian f18"></i>
+                    </div>
+                    <span class="syl-toolbar-divider"></span>
+                    <div class="syl-toolbar-tool">
+                        <i class="iconfont iconwuxupailie f22"></i>
+                    </div>
+                    <span class="syl-toolbar-divider"></span>
+                    <div class="syl-toolbar-tool">
+                        <i class="iconfont iconyouxuliebiao1 f22"></i>
+                    </div>
+                </div>
+                <div class="right" style="display: inline-block">
+                    <div class="syl-toolbar-tool">
+                        <i class="iconfont iconundo f22"></i>
+                    </div>
+                    <span class="syl-toolbar-divider"></span>
+                    <div class="syl-toolbar-tool">
+                        <i class="iconfont iconredo f22"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="publish-editor-title">
+                <input type="text" placeholder="请输入文章标题（5-30个汉字）" autocomplete="off" class="title-input">
+                <span class="line"></span>
+            </div>
+            <div class="syl-editor-wrap">
+                <div class="syl-editor">
+                    <div class="ProseMirror placeholeder" contenteditable="true" autocomplete="off"
+                         autocorrect="off" autocapitalize="off" spellcheck="false" id="msgContent">
+                        <p>
+                            <br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 关联内容 -->
+        <div class="form-wrap">
+            <div class="form-container">
+                <div class="pgc-edit-cell edit-cell">
+                    <div class="edit-label">展示封面</div>
+                    <div class="edit-input">
+                        <div class="article-cover">
+                            <div class="pgc-radio">
+                                <input type="radio" class="pic-radio hasPic" name="picture" value="1" checked>单图
+                                <input type="radio" class="pic-radio" name="picture" value="0">无封面
+                            </div>
+                            <div class="imgs">
+                                <div class="article-cover-images">
+                                    <div class="article-cover-add">
+                                        <div class="article-cover-add-icon"></div>
+                                        <div class="box-upload-form">
+                                            <input type="file" class="box-upload-file" id="file">
+                                        </div>
+                                    </div>
+                                    <!-- <div class="article-cover-img-wrap">
+                                        <img src="./img/0.webp" alt="" class="pic">
+                                        <i class="article-cover-delete"></i>
+                                    </div> -->
+                                </div>
+                                <div class="article-cover-tip">优质的封面有利于推荐，格式支持JPEG、PNG</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pgc-edit-cell edit-cell">
+                    <div class="edit-label">选择标签</div>
+                    <div class="edit-input">
+                        <select multiple id="tags" class="tags-select">
+                        </select>
+                    </div>
+                </div>
+                <div class="pgc-edit-cell edit-cell">
+                    <div class="edit-label">是否顶置</div>
+                    <div class="edit-input">
+                        <input type="radio" class="radio" name="isTop" value="1">YES
+                        <input type="radio" class="radio" name="isTop" value="0" checked>NO
+                    </div>
+                </div>
+            </div>
+            <div class="post-msg" onclick="submit()">发布</div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/static/js/addNews.js"></script>
+<script src="/static/js/jumpMsg.js"></script>
+<script>
+
+    $('.pic-radio').click(function() {
+        if($(this).hasClass('hasPic')) {
+            $('.imgs').removeClass('hidden');
+        }else {
+            $('.imgs').addClass('hidden');
+        }
+    });
+
+    function submit() {
+        let title = document.getElementsByClassName('title-input')[0].value;
+        let msgContent = document.getElementById('msgContent').innerHTML;
+        let tags = document.getElementById('tags');
+        let radio = document.getElementsByClassName("radio");
+        let hasPic = $('.hasPic')[0];
+        let options = tags.children;
+        let tagsId = [];
+        let j = 0;
+        for (let i in options) {
+            if (options[i].selected) {
+                tagsId[j++] = options[i].value;
+            }
+        }
+        tags = JSON.stringify(tagsId);
+        let isTop = '';
+        for (let i = 0; i < radio.length; i++) {
+            if (radio[i].checked) {
+                isTop = radio[i].value;
+            }
+        }
+
+        let form = new FormData();
+        form.append("title", title);
+        form.append("msgContent", msgContent);
+        form.append("tags", tags);
+        form.append("isTop", isTop);
+        if(hasPic.checked) {
+            if (pics.length > 1) {
+                alert("最多只能上传一张图片");
+                return;
+            }
+            form.append("pic", pics[0]);
+        }
+        for(let i = 0; i < fileArr.length; i++) {
+            form.append('contentUrl', fileArr[i]);
+        }
+        let xhr = new XMLHttpRequest();
+        xhr.open("post", "/admin/addNews");
+        // xhr.setRequestHeader("Content-type","multipart/form-data");//ajax默认发送文件
+        // xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");//form表单默认不能发送文件
+        xhr.onreadystatechange = function () {
+            if (xhr.status == 200 && xhr.readyState == 4) {
+                let msg = JSON.parse(xhr.responseText).msg;
+                document.documentElement.scrollTop = 0;
+                alert(msg);
+                location.href = '/admin/toAddNews';
+            }
+        };
+        xhr.send(form);
+    }
+
+    let xhrReq = new XMLHttpRequest();
+    xhrReq.open("get","/admin/allTags");
+    xhrReq.onreadystatechange = function(){
+        if(xhrReq.status == 200 && xhrReq.readyState == 4){
+            let result = JSON.parse(xhrReq.responseText);
+            let tags = document.getElementById("tags");
+            for(let i = 0; i < result.length; i++){
+                let option = document.createElement("option");
+                option.innerText = result[i].tag;
+                option.value = result[i].id;
+                tags.appendChild(option);
+            }
+        }
+    };
+    xhrReq.send();
+</script>
+</body>
+</html>

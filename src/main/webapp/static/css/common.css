@@ -1,0 +1,46 @@
+@import "//at.alicdn.com/t/font_1682724_uy2slcjert.css";
+/* 公共的css代码 */
+.left{
+    float: left;
+}
+.right{
+    float: right;
+}
+.clearfix::after{
+    content: "";
+    display: block;
+    clear: both;
+}
+body {
+    font-family: Helvetica, Arial, sans-serif;
+}
+.hidden {
+    display: none;
+}
+.btn {
+    background: #41ac52;
+    cursor: pointer;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+}
+.btn:disabled {
+    background-color: rgba(66,189,86,.5);
+    cursor: not-allowed;
+}
+.bold {
+    font-weight: bold;
+}
+.comment-toast {
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    margin-top: -25px;
+    opacity: 0;
+    color: #fff;
+    font-size: 14px;
+    background-color: #666;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 30px;
+}

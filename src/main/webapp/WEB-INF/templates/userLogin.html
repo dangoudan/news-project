@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/static/css/loginframe.css}">
+    <script th:src="@{/static/js/jquery.js}"></script>
+
+</head>
+<body>
+<h1>用户登录界面</h1>
+
+<div class="container">
+    <div class="login">
+        <!-- 切换菜单 -->
+        <div class="switch-menu clearfix">
+            <span class="left selected">
+                密码登录
+            </span>
+            <span class="right">
+                注册
+            </span>
+        </div>
+
+        <form class="form" onsubmit="return false;">
+            <!-- 密码登录 -->
+            <div>
+                <div class="form-item tip space clearfix">
+<!--                    <a href="" class="right">找回密码</a>-->
+                </div>
+                <div class="form-item">
+                    <input type="text" placeholder="用户名" id="account">
+                </div>
+                <div class="form-item">
+                    <input type="password" placeholder="密码" id="password">
+                </div>
+                <div class="form-item">
+                    <input type="text" placeholder="请输入验证码（不区分大小写）" class="input-val">
+                    <canvas id="canvas" width="100" height="38"></canvas>
+                </div>
+                <div class="form-item">
+                    <button disabled class="btn" onclick="login()">登录</button>
+                </div>
+                <div class="form-item tip clearfix">
+                    <label class="left">
+                        <input type="checkbox">
+                        下次自动登录
+                    </label>
+                    <span class="right">
+                        <a href="/admin/toLogin">
+                            管理员登录
+                        </a>
+                    </span>
+                </div>
+            </div>
+            <!-- 注册 -->
+            <div class="hidden">
+                <div class="form-item">
+                    <p class="txt">
+                        请仔细阅读
+                        <a style="cursor: default">新闻使用协议、隐私政策</a>
+                    </p>
+                </div>
+                <div class="form-item">
+                    <input type="text" placeholder="用户名" id="account1">
+                    <span class="msg"></span>
+                </div>
+                <div class="form-item">
+                    <input type="password" placeholder="密码" id="password1">
+                    <span class="msg"></span>
+                </div>
+                <div class="form-item">
+                    <input type="password" placeholder="确认密码" id="repeat">
+                    <span class="msg"></span>
+                </div>
+                <div class="form-item">
+                    <input type="email" placeholder="邮箱" id="email">
+                    <span class="msg"></span>
+                </div>
+                <div class="form-item clearfix">
+                    <div class="box-images-add">
+                        +
+                        <div class="box-upload-form">
+                            <input type="file" class="box-upload-file">
+                        </div>
+                    </div>
+                    <div class="box-images-pic">
+                        <img src="" alt="" class="pic">
+                        <div class="box-images-bg"></div>
+                        <span class="box-images-delete">
+                                <i class="icon-picture_delete"></i>
+                            </span>
+                    </div>
+                    <span class="msg msg-file"></span>
+                </div>
+                <div class="form-item">
+                    <button class="btn" onclick="register()">注册</button>
+                </div>
+            </div>
+        </form>
+        <div class="bottom">
+<!--                <span class="msg">-->
+<!--                    第三方登录:-->
+<!--                </span>-->
+<!--            <i class="iconfont iconweixin"></i>-->
+<!--            <i class="iconfont iconQQ"></i>-->
+        </div>
+    </div>
+</div>
+<script src="/static/js/checkCode.js"></script>
+<script>
+    let $form = $('.form').find('div').eq(0);
+    $('.switch-menu').on('click', function (e) {
+        $(this).find('.selected').removeClass('selected')
+        $(e.target).addClass('selected');
+        if($(e.target).text().trim() == '密码登录' && $form.hasClass('hidden')) {
+            $form.removeClass('hidden');
+            $form.next().addClass('hidden');
+        }else if($(e.target).text().trim() == '注册' && $form.next().hasClass('hidden')){
+            $form.next().removeClass('hidden');
+            $form.addClass('hidden');
+        }
+    });
+    let $input = $form.find('input[type=text]');
+    let $password = $form.find('input[type=password]');
+    setInterval(function() {
+        if($input.val() != '' && $password.val() != '') {
+            $form.find(".btn").removeAttr('disabled')
+        }else {
+            $form.find(".btn").attr('disabled', true)
+        }
+    }, 1000);
+    function login() {
+        let val = $(".input-val").val().toLowerCase();
+        let num = show_num.join("");
+        if (val == '') {
+            alert('请输入验证码！');
+            return;
+        } else if (val != num) {
+            alert('验证码错误！请重新输入！');
+            $(".input-val").val('');
+            return;
+            // draw(show_num);
+        } else {
+            $(".input-val").val('');
+            // draw(show_num);
+        }
+        let account = $input.val();
+        let password = $password.val();
+        let xhr = new XMLHttpRequest();
+        xhr.open("get", "/user/login?account=" + account + "&password=" + password);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                let result = JSON.parse(xhr.responseText);
+                if (result.status == "OK") {//登录成功，跳转到主页面
+                    alert("登录成功");
+                    window.history.back();
+                    // location.href = '/user/toDetail?id=16';
+                } else {//登录失败，告知用户失败的原因
+                    alert(result.msg);
+                }
+            }
+        };
+        xhr.send();
+    }
+
+    //========================注册=========================
+
+    let span1 = document.getElementsByClassName('msg')[0];
+    let span2 = document.getElementsByClassName('msg')[1];
+    let span3 = document.getElementsByClassName('msg')[2];
+    let span4 = document.getElementsByClassName('msg')[3];
+    let span5 = document.getElementsByClassName('msg')[4];
+    let account = document.getElementById("account1");
+    let password = document.getElementById("password1");
+    let email = document.getElementById("email");
+    let fileInput = document.querySelector('.box-upload-file'),
+        previewImg = document.querySelector('.pic');
+    account.onblur = function () {
+        let account = this.value;
+        if (account == '') {
+            span1.innerHTML = '请输入用户名'
+            return
+        } else if (account.length < 3 || account.length > 16) {
+            span1.innerHTML = '用户名长度为3 ~ 16'
+            return
+        } else {
+            span1.innerHTML = ''
+        }
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("get", "/user/check?account=" + account);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                let result = JSON.parse(xhr.responseText);
+                if (result.status == "FAIL") {
+                    span1.innerHTML = result.msg;
+                }
+            }
+        };
+        xhr.send();
+    };
+    password.onblur = function () {
+        let password = this.value;
+        if (password == '') {
+            span2.innerHTML = '请输入密码'
+        } else if (password.length < 6 || password.length > 16) {
+            span2.innerHTML = '密码长度为6 ~ 16'
+        } else {
+            span2.innerHTML = ''
+        }
+    };
+    document.getElementById("repeat").onblur = function () {
+        let repeat = this.value;
+        if (password.value != repeat) {
+            span3.innerHTML = '两次密码输入不一致';
+        } else {
+            span3.innerHTML = ''
+        }
+    };
+    email.onblur = function () {
+        let email = this.value;
+        if (email == null || email == '') {
+            span4.innerHTML = '必须要有Email';
+        } else {
+            span4.innerHTML = '';
+        }
+    };
+
+    function register() {
+        let pics = fileInput.files;
+        if(pics.length > 1) {
+            span5.innerHTML = '只能上传一张图片';
+            return;
+        } else {
+            span5.innerHTML = '';
+        }
+        if (span1.value == null && span2.value == null && span3.value == null && span4.value == null && span5.value == null) {
+            let form = new FormData();
+            form.append("account", account.value);
+            form.append("password", password.value);
+            form.append("email", email.value);
+            for(let i = 0; i < pics.length; i++){
+                form.append("pic", pics[i]);
+            }
+            let xhr = new XMLHttpRequest();
+            xhr.open("post", "/user/register");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    let result = JSON.parse(xhr.responseText);
+                    if (result.status == "OK") {//表示注册成功，跳转页面
+                        alert("注册成功，点击确定跳转到登录页面");
+                        location.href = "/user/toLogin";
+                    }
+                }
+            };
+            xhr.send(form);
+        }
+    }
+
+    fileInput.addEventListener('change', function () {
+        $('.box-images-pic').css('display', 'block');
+        let file = this.files[0];
+        let reader = new FileReader();
+        // 监听reader对象的的onload事件，当图片加载完成时，把base64编码賦值给预览图片
+        reader.addEventListener("load", function () {
+            previewImg.src = reader.result;
+        }, false);
+        // 调用reader.readAsDataURL()方法，把图片转成base64
+        reader.readAsDataURL(file);
+    }, false);
+
+    $(".icon-picture_delete").click(function () {
+        $('.box-images-pic').css('display', 'none');
+        $('.box-upload-file').val('');
+    });
+
+
+</script>
+</body>
+</html>

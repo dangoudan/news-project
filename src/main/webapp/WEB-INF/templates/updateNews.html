@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/static/css/addNews.css}">
+    <script th:src="@{/static/js/jquery.js}"></script>
+</head>
+<body>
+
+<div class="container-white">
+    <div class="edit-wrap">
+        <!-- 文章 -->
+        <div class="publish-editor">
+            <div class="syl-editor-toolbar">
+                <div class="syl-toolbar">
+                    <div class="syl-toolbar-tool">
+                        <i class="iconfont iconbold"></i>
+                    </div>
+                    <span class="syl-toolbar-divider"></span>
+                    <div class="syl-toolbar-tool">
+                        <span class="box-upload-icon"></span>
+                        <form action="" class="box-upload-form" onsubmit="return false;">
+                            <input type="file" class="box-upload-file" id="imgs">
+                        </form>
+                    </div>
+                    <span class="syl-toolbar-divider"></span>
+                    <div class="syl-toolbar-tool">
+                        <i class="iconfont iconxiahuaxian f18"></i>
+                    </div>
+                    <span class="syl-toolbar-divider"></span>
+                    <div class="syl-toolbar-tool">
+                        <i class="iconfont iconwuxupailie f22"></i>
+                    </div>
+                    <span class="syl-toolbar-divider"></span>
+                    <div class="syl-toolbar-tool">
+                        <i class="iconfont iconyouxuliebiao1 f22"></i>
+                    </div>
+                </div>
+                <div class="right" style="display: inline-block">
+                    <div class="syl-toolbar-tool">
+                        <i class="iconfont iconundo f22"></i>
+                    </div>
+                    <span class="syl-toolbar-divider"></span>
+                    <div class="syl-toolbar-tool">
+                        <i class="iconfont iconredo f22"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="publish-editor-title">
+                <input type="text" placeholder="请输入文章标题（5-30个汉字）" autocomplete="off" class="title-input">
+                <span class="line"></span>
+            </div>
+            <div class="syl-editor-wrap">
+                <div class="syl-editor">
+                    <div class="ProseMirror" contenteditable="true" autocomplete="off"
+                         autocorrect="off" autocapitalize="off" spellcheck="false" id="msgContent">
+                        <p>
+                            <br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 关联内容 -->
+        <div class="form-wrap">
+            <div class="form-container">
+                <div class="pgc-edit-cell edit-cell">
+                    <div class="edit-label">展示封面</div>
+                    <div class="edit-input">
+                        <div class="article-cover">
+                            <div class="pgc-radio">
+                                <input type="radio" class="pic-radio hasPic" name="picture" value="1" checked>单图
+                                <input type="radio" class="pic-radio" name="picture" value="0">无封面
+                            </div>
+                            <div class="imgs">
+                                <div class="article-cover-images">
+                                    <!-- <div class="article-cover-add">
+                                        <div class="article-cover-add-icon"></div>
+                                        <div class="box-upload-form">
+                                            <input type="file" class="box-upload-file" id="file">
+                                        </div>
+                                    </div> -->
+                                    <div class="article-cover-img-wrap">
+                                        <img src="" alt="" class="pic">
+                                        <i class="article-cover-delete"></i>
+                                    </div>
+                                </div>
+                                <div class="article-cover-tip">优质的封面有利于推荐，格式支持JPEG、PNG</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pgc-edit-cell edit-cell">
+                    <div class="edit-label">选择标签</div>
+                    <div class="edit-input">
+                        <select multiple id="tags" class="tags-select">
+                        </select>
+                    </div>
+                </div>
+                <div class="pgc-edit-cell edit-cell">
+                    <div class="edit-label">是否顶置</div>
+                    <div class="edit-input">
+                        <input type="radio" class="radio" name="isTop" value="1">YES
+                        <input type="radio" class="radio" name="isTop" value="0">NO
+                    </div>
+                </div>
+            </div>
+            <div class="post-msg" onclick="submit()">修改</div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/updateNews.js"></script>
+<script src="/static/js/jumpMsg.js"></script>
+<script type="text/javascript" th:inline="javascript">
+
+    let fullData = {};
+
+    function submit() {
+        let title = document.getElementsByClassName('title-input')[0].value;
+        let msgContent = document.getElementById('msgContent').innerHTML;
+        let tags = document.getElementById('tags');
+        let radio = document.getElementsByClassName("radio");
+        let hasPic = $('.hasPic')[0];
+        //=======标签判断========
+        let options = tags.children;
+        let tagsId = [];
+        let tagNames1 = [];
+        let j = 0;
+        for (let i in options) {
+            if (options[i].selected) {
+                tagsId[j++] = options[i].value;
+                j--;
+                tagNames1[j++] = options[i].innerText;
+            }
+        }
+        let tagNames = fullData.tagList;
+        if (tagNames.length == tagNames1.length) {
+            let lock = false;
+            for (let i in tagNames) {
+                if (tagNames1[i] != tagNames[i]) {
+                    lock = true;
+                    break;
+                }
+            }
+            if (!lock) {
+                tagsId = null;
+            }
+        }
+        tags = JSON.stringify(tagsId);
+        //=======顶置判断========
+        let isTop = '';
+        for (let i = 0; i < radio.length; i++) {
+            if (radio[i].checked) {
+                isTop = radio[i].value;
+            }
+        }
+        if (isTop == fullData.news.isTop) {
+            isTop = null;
+        }
+        //=======正文判断========
+        if (msgContent == fullData.news.content) {
+            msgContent = null;
+        }
+        //=======标题判断========
+        if (fullData.news.title == title) {
+            title = null;
+        }
+
+        //=======contentUrl判断======
+        if(fullData.news.contentUrl != null) {
+            let contentUrl = JSON.parse(fullData.news.contentUrl);
+            if (fileArr.length == contentUrl.length) {
+                let lock = false;
+                for (let i in fileArr) {
+                    if (fileArr[i].name != contentUrl[i].originFileName) {
+                        lock = true;
+                        break;
+                    }
+                }
+                if (!lock) {
+                    fileArr.length = 0;
+                }
+            }
+        }
+        let form = new FormData();
+        form.append("title", title);
+        form.append("msgContent", msgContent);
+        form.append("tags", tags);
+        form.append("isTop", isTop);
+        //=======pic封面判断======
+        if(hasPic.checked) {
+            if(fullData.news.picUrl != null) {
+                let picUrl = JSON.parse(fullData.news.picUrl);
+                if (pics.length == 0 || pics[0].name == picUrl.originFileName) {
+                    pics[0] = null;
+                    form.append("pic", pics[0]);
+                }else {//封面已更改
+                    form.append("pic", pics[0]);
+                }
+            }else {//原无封面
+                form.append("pic", pics[0]);
+            }
+        } else {//无封面
+            if(fullData.news.picUrl == null) {
+                pics[0] = null;
+                form.append("pic", pics[0]);
+            }
+            //现无封面不传
+        }
+        form.append('newsId', fullData.news.id);
+        for (let i = 0; i < fileArr.length; i++) {
+            form.append('contentUrl', fileArr[i]);
+        }
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("post", "/admin/updateNews");
+        xhr.onreadystatechange = function () {
+            if (xhr.status == 200 && xhr.readyState == 4) {
+                let msg = JSON.parse(xhr.responseText).msg;
+                alert(msg);
+                location.href = '/admin/toAdminNewsList';
+            }
+        };
+        xhr.send(form);
+    }
+
+
+    let xhrReq = new XMLHttpRequest();
+    xhrReq.open("get","/admin/allTags", false);
+    xhrReq.onreadystatechange = function(){
+        if(xhrReq.status == 200 && xhrReq.readyState == 4){
+            let result = JSON.parse(xhrReq.responseText);
+            let tags = document.getElementById("tags");
+            for(let i = 0; i < result.length; i++){
+                let option = document.createElement("option");
+                option.innerText = result[i].tag;
+                option.value = result[i].id;
+                tags.appendChild(option);
+            }
+        }
+    };
+    xhrReq.send();
+
+    let xhr1 = new XMLHttpRequest();
+    xhr1.open("get", "/admin/findOneNews?id=" + [[${id}]]);
+    xhr1.onreadystatechange = function () {
+        if (xhr1.readyState == 4 && xhr1.status == 200) {
+            let result = JSON.parse(xhr1.responseText);
+            let data = JSON.parse(result.data);
+            fullData = data;
+            console.log(data);
+            let contentUrl = null;
+            if(data.news.contentUrl != null) {
+                contentUrl = JSON.parse(data.news.contentUrl);
+            }
+            let title = document.getElementsByClassName('title-input')[0];
+            let msgContent = document.getElementById('msgContent');
+            let tags = document.getElementById('tags');
+            let radio = document.getElementsByClassName("radio");
+            let pic = document.getElementsByClassName('pic')[0];
+            title.value = data.news.title;
+            msgContent.innerHTML = data.news.content;
+            if(data.news.picUrl != null) {
+                pic.setAttribute('src', "/user/getPic?path=" + JSON.parse(data.news.picUrl).realFileName);
+            }else {
+                $('.pic-radio')[0].checked = false;
+                $('.pic-radio')[1].checked = true;
+                $('.article-cover-delete').trigger('click');
+                $('.imgs').addClass('hidden');
+            }
+            if(contentUrl != null) {
+                $(msgContent).find('img').each(function (index, ele) {
+                    let base64 = $(ele).attr('src');
+                    fileArr.push(dataURLtoFile(base64, contentUrl[index].originFileName));
+                });
+            }
+            console.log(fileArr);
+            let tagNames = data.tagList;
+            let options = tags.children;
+            for (let i = 0; i < radio.length; i++) {
+                if (radio[i].value == data.news.isTop) {
+                    radio[i].setAttribute("checked", "checked")
+                }
+            }
+            for (let i = 0; i < tagNames.length; i++) {
+                for (let j = 0; j < options.length; j++) {
+                    if (options[j].innerText == tagNames[i]) {
+                        options[j].setAttribute("selected", "selected")
+                    }
+                }
+            }
+        }
+    };
+    xhr1.send();
+
+
+
+</script>
+</body>
+</html>

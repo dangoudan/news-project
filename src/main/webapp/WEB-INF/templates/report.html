@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/css/report.css">
+    <script src="/static/js/jquery.js"></script>
+</head>
+<body>
+
+<div class="box">
+    <div class="wraper">
+        <div class="mycenter-wrap">
+            <div class="mycenter-main">
+                <div class="mycenter-short">
+                    <div id="mycommentWraper">
+                        <p class="my-short-total news_short">
+                            共有<em class="news_short_num" th:text="${count}"></em>条举报信息
+                        </p>
+                        <ul class="item-list">
+<!--                            <li class="np-post">-->
+<!--                                <div class="np-post-body">-->
+<!--                                    <div class="np-post-content font16"> 这是几把哪的日本大学生 </div>-->
+<!--                                    <div class="news_title">-->
+<!--                                        <p>-->
+<!--                                            <span>举报人：<i>色情几把</i></span>-->
+<!--                                            <span class="ml">举报原因：<i>色情几把</i></span>-->
+<!--                                        </p>-->
+<!--                                        <p class="mt">-->
+<!--                                            <span>详细说明：<i>萨达是大撒大所多</i></span>-->
+<!--                                        </p>-->
+<!--                                    </div>-->
+<!--                                    <div class="np-post-footer">-->
+<!--                                            <span class="coral-r font14">-->
+<!--                                                <a href="" class="np-btn-reply">-->
+<!--                                                    <i class="iconfont iconpassthrough"></i>-->
+<!--                                                    放行-->
+<!--                                                </a>-->
+<!--                                                <a href="" class="np-btn-delete">删除</a>-->
+<!--                                            </span>-->
+<!--                                        <span class="font14">2016/10/25 下午5:36 &nbsp;&nbsp;&nbsp;&nbsp;-->
+<!--                                            </span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </li>-->
+<!--                            <li class="np-post">-->
+<!--                                <div class="np-post-body">-->
+<!--                                    <div class="np-post-content font16"> 这是几把哪的日本大学生 </div>-->
+<!--                                    <div class="news_title">-->
+<!--                                        <p>-->
+<!--                                            <a href="">《啊？超半数日本大学生没看过《龙珠》》</a>-->
+<!--                                        </p>-->
+<!--                                    </div>-->
+<!--                                    <div class="np-post-footer">-->
+<!--                                            <span class="coral-r font14">-->
+<!--                                                <a href="" class="np-btn-delete">删除</a>-->
+<!--                                            </span>-->
+<!--                                        <span class="font14">2016/10/25 下午5:36 &nbsp;&nbsp;&nbsp;&nbsp;-->
+<!--                                            </span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </li>-->
+<!--                            <li class="np-post">-->
+<!--                                <div class="np-post-body">-->
+<!--                                    <div class="np-post-content font16"> 这是几把哪的日本大学生 </div>-->
+<!--                                    <div class="news_title">-->
+<!--                                        <p>-->
+<!--                                            <a href="">《啊？超半数日本大学生没看过《龙珠》》</a>-->
+<!--                                        </p>-->
+<!--                                    </div>-->
+<!--                                    <div class="np-post-footer">-->
+<!--                                            <span class="coral-r font14">-->
+<!--                                                <a href="" class="np-btn-delete">删除</a>-->
+<!--                                            </span>-->
+<!--                                        <span class="font14">2016/10/25 下午5:36 &nbsp;&nbsp;&nbsp;&nbsp;-->
+<!--                                            </span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </li>-->
+<!--                            <li class="np-post">-->
+<!--                                <div class="np-post-body">-->
+<!--                                    <div class="np-post-content font16"> 这是几把哪的日本大学生 </div>-->
+<!--                                    <div class="news_title">-->
+<!--                                        <p>-->
+<!--                                            <a href="">《啊？超半数日本大学生没看过《龙珠》》</a>-->
+<!--                                        </p>-->
+<!--                                    </div>-->
+<!--                                    <div class="np-post-footer">-->
+<!--                                            <span class="coral-r font14">-->
+<!--                                                <a href="" class="np-btn-delete">删除</a>-->
+<!--                                            </span>-->
+<!--                                        <span class="font14">2016/10/25 下午5:36 &nbsp;&nbsp;&nbsp;&nbsp;-->
+<!--                                            </span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </li>-->
+                        </ul>
+                    </div>
+                    <div class="loadMycomment">加载更多</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="/static/js/jumpMsg.js"></script>
+<script src="/static/js/format.js"></script>
+<script>
+    let offset = 0;
+    let size = 10;
+    let total = +$('.news_short_num').text();
+
+    $('.loadMycomment').click(function () {
+        queryList(offset * size, size);
+        offset++;
+        if (offset * size >= total) {
+            $(this).remove();
+        }
+    });
+
+    $('.loadMycomment').trigger('click');
+    function queryList(offset, size) {
+        $.ajax({
+            url: '/admin/getReportByPage',
+            type: 'get',
+            data: {
+                offset,
+                size
+            },
+            datatype: 'json'
+        }).then(data => {
+            for(let i = 0; i < data.length; i++) {
+                if(data[i].reportContent != null) {
+                    $('.item-list').append($('<li class="np-post" data-report-id="' + data[i].reportId + '" data-id="' + data[i].id + '" data-comment-or-reply="' + data[i].commentOrReply + '">' +
+                        '<div class="np-post-body">' +
+                        '<div class="np-post-content font16"> ' + data[i].content + ' </div>' +
+                        '<div class="news_title"><p>' +
+                        '<span>举报人：<i>' + data[i].name + '</i></span>' +
+                        '<span class="ml">举报原因：<i>' + data[i].reportTag + '</i></span></p>' +
+                        '<p class="mt">' +
+                        '<span>详细说明：<i>' + data[i].reportContent + '</i></span>' +
+                        '</p></div>' +
+                        '<div class="np-post-footer">' +
+                        '<span class="coral-r font14">' +
+                        '<a href="javascript:void 0" class="np-btn-reply">' +
+                        '<i class="iconfont iconpassthrough"></i>放行</a>' +
+                        '<a href="javascript:void 0" class="np-btn-delete">删除</a>' +
+                        '</span><span class="font14">' + timestampToTime(data[i].ctime) + ' &nbsp;&nbsp;&nbsp;&nbsp;</span>' +
+                        '</div></div></li>'))
+                }else {
+                    $('.item-list').append($('<li class="np-post" data-report-id="' + data[i].reportId + '" data-id="' + data[i].id + '" data-comment-or-reply="' + data[i].commentOrReply + '">' +
+                        '<div class="np-post-body">' +
+                        '<div class="np-post-content font16"> ' + data[i].content + ' </div>' +
+                        '<div class="news_title"><p>' +
+                        '<span>举报人：<i>' + data[i].name + '</i></span>' +
+                        '<span class="ml">举报原因：<i>' + data[i].reportTag + '</i></span></p>' +
+                        '</div>' +
+                        '<div class="np-post-footer">' +
+                        '<span class="coral-r font14">' +
+                        '<a href="javascript:void 0" class="np-btn-reply">' +
+                        '<i class="iconfont iconpassthrough"></i>放行</a>' +
+                        '<a href="javascript:void 0" class="np-btn-delete">删除</a>' +
+                        '</span><span class="font14">' + timestampToTime(data[i].ctime) + ' &nbsp;&nbsp;&nbsp;&nbsp;</span>' +
+                        '</div></div></li>'))
+                }
+            }
+            bindClick();
+        })
+    }
+
+    function bindClick() {
+        $('.np-btn-reply').unbind('click');
+        $('.np-btn-reply').click(function () {
+            let reportId = $(this).closest('.np-post').data('reportId');
+            $.ajax({
+                url: '/admin/delReport',
+                type: 'get',
+                data: {
+                    reportId
+                },
+                datatype: 'json'
+            }).then(data => {
+                $(this).closest('.np-post').remove();
+                let count = +$('.news_short_num').text();
+                $('.news_short_num').text(count - 1);
+                jumpBlock("放行成功")
+            })
+        });
+        $('.np-btn-delete').unbind('click');
+        $('.np-btn-delete').click(function () {
+            let id = $(this).closest('.np-post').data('id');
+            let reportId = $(this).closest('.np-post').data('reportId');
+            let commentOrReply = $(this).closest('.np-post').data('commentOrReply');
+            $.ajax({
+                url: '/admin/delComment',
+                type: 'get',
+                data: {
+                    commentOrReply,
+                    id
+                },
+                datatype: 'json'
+            });
+            $.ajax({
+                url: '/admin/delReport',
+                type: 'get',
+                data: {
+                    reportId
+                },
+                datatype: 'json'
+            }).then(data => {
+                $(this).closest('.np-post').remove();
+                let count = +$('.news_short_num').text();
+                $('.news_short_num').text(count - 1);
+                jumpBlock("删除成功")
+            });
+        });
+    }
+
+</script>
+
+</html>

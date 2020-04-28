@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/css/adminTagsList.css">
+    <script src="/static/js/jquery.js"></script>
+</head>
+<body>
+<div class="wrap">
+    <div class="clearfix">
+        <div class="confirm" style="display: none">确认</div>
+        <div class="move">移动</div>
+    </div>
+    <div class="list">
+        <div class="top">
+            <div class="tag left">
+                <span>标签名</span>
+            </div>
+            <div class="time left">
+                <span>创建时间</span>
+            </div>
+            <div class="operate right"><span>操作</span></div>
+        </div>
+        <ul class="item-list">
+<!--            <li class="item clearfix">-->
+<!--                <div class="tag left">-->
+<!--                    <span>要闻</span>-->
+<!--                </div>-->
+<!--                <div class="time left">-->
+<!--                    <span>2020.04.09 12:34:23</span>-->
+<!--                </div>-->
+<!--                <div class="operate right">-->
+<!--                    <button class="btn">删除</button>-->
+<!--                </div>-->
+<!--            </li>-->
+<!--            <li class="item clearfix">-->
+<!--                <div class="tag left">-->
+<!--                    <span>要闻</span>-->
+<!--                </div>-->
+<!--                <div class="time left">-->
+<!--                    <span>2020.04.09 12:34:23</span>-->
+<!--                </div>-->
+<!--                <div class="operate right">-->
+<!--                    <button class="btn">删除</button>-->
+<!--                </div>-->
+<!--            </li>-->
+<!--            <li class="item clearfix">-->
+<!--                <div class="tag left">-->
+<!--                    <span>要闻</span>-->
+<!--                </div>-->
+<!--                <div class="time left">-->
+<!--                    <span>2020.04.09 12:34:23</span>-->
+<!--                </div>-->
+<!--                <div class="operate right">-->
+<!--                    <button class="btn">删除</button>-->
+<!--                </div>-->
+<!--            </li>-->
+<!--            <li class="item clearfix">-->
+<!--                <div class="tag left">-->
+<!--                    <span>要闻</span>-->
+<!--                </div>-->
+<!--                <div class="time left">-->
+<!--                    <span>2020.04.09 12:34:23</span>-->
+<!--                </div>-->
+<!--                <div class="operate right">-->
+<!--                    <button class="btn">删除</button>-->
+<!--                </div>-->
+<!--            </li>-->
+<!--            <li class="item clearfix">-->
+<!--                <div class="tag left">-->
+<!--                    <span>要闻</span>-->
+<!--                </div>-->
+<!--                <div class="time left">-->
+<!--                    <span>2020.04.09 12:34:23</span>-->
+<!--                </div>-->
+<!--                <div class="operate right">-->
+<!--                    <button class="btn">删除</button>-->
+<!--                </div>-->
+<!--            </li>-->
+        </ul>
+        <div class="more">更多标签</div>
+    </div>
+</div>
+
+<script src="/static/js/format.js"></script>
+<script src="/static/js/jumpMsg.js"></script>
+<script>
+
+    let offset = 0;
+    let size = 10;
+    let total = 0;
+
+    function del(id) {
+        let xhr = new XMLHttpRequest();
+        xhr.open("get", "/admin/deleteTags?id=" + id);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                jumpBlock("删除成功");
+                $('.item-list').find($('li[data-id=' + id + ']')).remove();
+            }
+        };
+        xhr.send();
+    }
+
+    function getTags(offset, size) {
+        $.ajax({
+            url: '/admin/getTagsByPage',
+            data: {
+                offset,
+                size
+            },
+            type: 'get',
+            dataType: 'json'
+        }).then(data => {
+            console.log(data);
+            let flag = true;
+            if(offset !== 0) {
+                if($('.iconfont').css('display') !== 'none') {
+                    flag = false;
+                }
+            }
+            for (let i = 0; i < data.length; i++) {
+                $('.item-list').append($('<li class="item clearfix" data-id="' + data[i].id + '">' +
+                    '<div class="tag left">' +
+                    '<span class="tagName">' + data[i].tag + '</span></div>' +
+                    '<div class="time left">' +
+                    '<span>' + timestampToTime(data[i].ctime) + '</span></div>' +
+                    '<div class="operate right">' +
+                    '<button class="del" onclick="del(' + data[i].id + ')">删除</button>' +
+                    '<i class="iconfont iconjiantou" style="display: none"></i>' +
+                    '<i class="iconfont iconxiajiantou" style="display: none"></i>' +
+                    '</div></li>'))
+            }
+            if(!flag) {
+                $('.iconfont').css('display', 'inline-block')
+            }
+            move();
+        })
+    }
+
+    $.ajax({
+        url: '/admin/getTagsCount',
+        type: 'get',
+        dataType: 'json',
+        success(data) {
+            total = data;
+            next();
+        }
+    });
+
+    $('.more').click(function () {
+        next();
+    });
+
+    function next() {
+        getTags(offset * size, size);
+        offset++;
+        if (offset * size >= total) {
+            $('.more').remove();
+        }
+    }
+
+    function move() {
+        $('.iconjiantou').unbind('click');
+        $('.iconxiajiantou').unbind('click');
+        $('.iconjiantou').click(function () {
+            let $prev = $(this).closest('.item').prev();
+            let $ele = $(this).closest('.item');
+            $ele.insertBefore($prev);
+        });
+        $('.iconxiajiantou').click(function () {
+            let $next = $(this).closest('.item').next();
+            let $ele = $(this).closest('.item');
+            $ele.insertAfter($next);
+        });
+    }
+
+
+
+    $('.move').click(function() {
+        $(this).css('display', 'none');
+        $('.confirm').css('display', 'inline-block');
+        $('.iconfont').css('display', 'inline-block')
+    });
+    $('.confirm').click(function() {
+        $(this).css('display', 'none');
+        $('.move').css('display', 'inline-block');
+        $('.iconfont').css('display', 'none');
+        let tagNames = [];
+        $('.item-list').find('.tagName').each(function (index, ele) {
+            tagNames.push($(ele).text());
+        });
+        console.log(tagNames);
+        $.ajax({
+            url: '/admin/updateTagsList',
+            type: 'get',
+            data: {
+                'tagsList': JSON.stringify(tagNames)
+            },
+            success(data) {
+                jumpBlock("修改成功");
+            }
+        })
+    })
+
+
+</script>
+</body>
+</html>

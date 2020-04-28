@@ -1,0 +1,66 @@
+@import "reset.css";
+@import "common.css";
+
+
+/*统一样式*/
+button {
+    cursor: pointer;
+}
+a {
+    color: #333;
+}
+a:hover {
+    color: #2291f7;
+}
+a:active {
+    color: #fff;
+    background: #f93;
+}
+ul{
+    word-break: break-all;
+}
+/*统一样式结束*/
+
+.wrap {
+    margin-top: 100px;
+    height: 50px;
+    text-align: center;
+}
+.tag {
+    display: inline-block;
+    width: 400px;
+    background: #f4f4f4;
+    border-radius: 5px;
+}
+.tag input {
+    width: 380px;
+    height: 50px;
+    padding: 0 20px;
+    line-height: 50px;
+    background: none;
+    color: black;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+.submit {
+    width: 100px;
+    height: 50px;
+    color: black;
+    text-align: center;
+    background: #cacaca;
+    font-size: 16px;
+    border-radius: 4px;
+}
+.select {
+    height: 50px;
+    line-height: 50px;
+    text-align: left;
+}
+.select div {
+    display: inline-block;
+    margin: 0 10px;
+}
+.select .normal {
+    margin-left: 280px;
+    margin-right: 100px;
+}

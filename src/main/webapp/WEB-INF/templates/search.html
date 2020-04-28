@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/static/css/search.css}">
+    <script src="/static/js/jquery.js"></script>
+</head>
+<body>
+
+<div class="y-wrap">
+    <!-- 头部 -->
+    <div class="loginMod">
+        <div id="qq_navWrap">
+            <div class="qq_nav">
+                <ul class="clearfix">
+                    <li th:each="tags,tagsStat:${tagsList}" th:if="${tagsStat.index < 12}">
+                        <a th:href="@{/user/toNewsList}" th:text="${tags.tag}" th:if="${tagsStat.first}" target="_blank"></a>
+                        <a th:href="@{/user/toNewsTagsList(tagsId=${tags.id})}" th:text="${tags.tag}" th:unless="${tagsStat.first}" target="_blank"></a>
+                    </li>
+                    <li class="moreNav">
+                        <a class="moreLink">更多<span class="moreNav1"></span></a>
+                        <div class="navmenu">
+                            <a th:each="tags,tagsStat:${tagsList}" th:if="${tagsStat.index >= 12}" th:href="@{/user/toNewsTagsList(tagsId=${tags.id})}" th:text="${tags.tag}" target="_blank"></a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="loginWrap">
+            <div class="login clearfix">
+                <div class="quickArea menu">
+                    <a href="/user/toMy?type=favor" target="_blank">
+                        <img src="" class="Face">
+                        <span class="nick"></span>
+                    </a>
+                    <div class="infoPop">
+                        <img src="" alt="" class="big-face">
+                        <a href="javascript:void 0" class="loginout" onclick="loginOut()"></a>
+                    </div>
+                </div>
+                <div class="quickArea menu">
+                    <a href="/user/toMy?type=comment" class="quickLink" title="我的评论" target="_blank">
+                        <em class="qcomment"></em>
+                        <span></span>
+                    </a>
+                </div>
+                <div class="quickArea menu">
+                    <a href="/user/toMy?type=record" class="quickLink" title="我的记录" target="_blank">
+                        <em class="qcollect"></em>
+                        <span></span>
+                    </a>
+                </div>
+                <div class="quickArea menu">
+                    <a href="/user/toMy?type=favor" class="quickLink" title="我的收藏" target="_blank">
+                        <em class="qlike"></em>
+                        <span></span>
+                    </a>
+                </div>
+                <div class="quickArea menu btn-login">
+                    <a href="/user/toLogin" class="quickLink">
+                        <em class="loginBtn">一键登录</em>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 内容 -->
+    <div class="container">
+        <div class="index-middle">
+            <div class="searchBar">
+                <div class="clearfix">
+                    <div class="left search-content">
+                        <input type="text" autocomplete="off" placeholder="搜你想搜的">
+                    </div>
+                    <div class="right">
+                        <button class="search-btn" onclick="toSearch()">搜索</button>
+                    </div>
+                </div>
+            </div>
+            <div class="tabBar">
+                <ul class="tab-list clearfix">
+                    <li class="left tab-item active">综合</li>
+                    <li class="left tab-item">最新</li>
+                    <li class="left tab-item">最热</li>
+                </ul>
+            </div>
+            <div class="feedBox">
+                <div class="sections"></div>
+                <div class="more">加载中...</div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom"></div>
+</div>
+
+</body>
+
+<script src="/static/js/searchCookie.js"></script>
+<script src="/static/js/format.js"></script>
+<script type="text/javascript" th:inline="javascript">
+
+    let pageNum = 1;
+    let pageSize = 8;
+    let count = 0;
+    let keyword = [[${keyword}]];
+    let type = 'normal'; //normal综合，hot最热，latest最新
+
+    (function() {
+        $.ajax({
+            url: '/user/getBlurNameCount',
+            data: {
+                keyword,
+            },
+            type: 'get',
+            dataType: 'json',
+            success(data) {
+                count = data;
+                next();
+            }
+        });
+    })();
+
+    $('.tab-list').find('.tab-item').click(function () {
+        $('.tab-list').find('.tab-item').removeClass('active');
+        $(this).addClass('active');
+        let txt = $(this).text();
+        if(txt === "综合") {
+            type = 'normal'
+        }else if(txt === "最热") {
+            type = 'hot'
+        }else {
+            type = 'latest'
+        }
+        pageNum = 1;
+        $('.sections').find('.articleCard').remove();
+        timeId = setInterval(function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
+            let scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+            if (scrollTop + clientHeight === scrollHeight) {
+                next();
+            }
+        }, 1000);
+        $('<div class="more">加载中...</div>').appendTo($('.feedBox'));
+        next();
+    });
+
+
+    let timeId = setInterval(function () {
+        let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        let clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
+        let scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+        if (scrollTop + clientHeight === scrollHeight) {
+            next();
+        }
+    }, 1000);
+
+    function next() {
+        queryList((pageNum - 1) * pageSize, pageSize);
+        pageNum++;
+        if ((pageNum - 1) * pageSize >= count) {
+            $('.more').remove();
+            clearInterval(timeId);
+        }
+    }
+
+    function queryList(offset, size) {
+        $.ajax({
+            url: '/user/search',
+            data: {
+                keyword,
+                offset,
+                size,
+                type
+            },
+            type: 'get',
+            dataType: 'json',
+        }).then(result => {
+            if (result.status === 'OK') {
+                let data = JSON.parse(result.data);
+                for (let i = 0; i < data.length; i++) {
+                    let count = getCommentCount(data[i].id);
+                    let title = data[i].title;
+                    let key1 = keyword.substr(0, 1);
+                    let key2 = keyword.substr(keyword.length - 1);
+                    console.log(key1, key2);
+                    let titlePrev = title.substr(0, title.indexOf(key1));
+                    let titleAfter = title.substr(title.indexOf(key2) + 1);
+                    if(data[i].picUrl != null) {
+                        $('.sections').append($('<div class="articleCard">' +
+                            '<div class="item">' +
+                            '<div class="item-inner clearfix">' +
+                            '<div class="lbox">' +
+                            '<a href="/user/toDetail?id=' + data[i].id + '" class="img-wrap" target="_blank">' +
+                            '<img src="/user/getPic?path=' + JSON.parse(data[i].picUrl).realFileName + '" alt=""></a></div>' +
+                            '<div class="normal rbox">' +
+                            '<div class="rbox-inner">' +
+                            '<div class="title-box">' +
+                            '<a href="/user/toDetail?id=' + data[i].id + '" class="link">' +
+                            '<span class="title">' +
+                            '' + titlePrev + '<em class="highlight">' + keyword + '</em>' + titleAfter + '' +
+                            '</span></a></div>' +
+                            '<div class="footer clearfix">' +
+                            '<div class="left">' +
+                            '<a href="/user/toDetail?id=' + data[i].id + '" class="lbtn source">&nbsp;' + data[i].author + '&nbsp;</a>' +
+                            '<a href="/user/toDetail?id=' + data[i].id + '" class="lbtn comment">⋅&nbsp;' + count + '&nbsp;评论</a>' +
+                            '<span class="lbtn">⋅&nbsp;' + timestampToTime1(data[i].ctime) + '</span>' +
+                            '</div></div></div></div></div></div></div>'));
+                    }else {
+                        $('.sections').append($('<div class="articleCard">' +
+                            '<div class="item">' +
+                            '<div class="item-inner clearfix">' +
+                            '<div class="normal box">' +
+                            '<div class="rbox-inner">' +
+                            '<div class="title-box">' +
+                            '<a href="/user/toDetail?id=' + data[i].id + '" class="link">' +
+                            '<span class="title">' +
+                            '' + titlePrev + '<em class="highlight">' + keyword + '</em>' + titleAfter + '' +
+                            '</span></a></div>' +
+                            '<div class="footer clearfix">' +
+                            '<div class="left">' +
+                            '<a href="/user/toDetail?id=' + data[i].id + '" class="lbtn source">&nbsp;' + data[i].author + '&nbsp;</a>' +
+                            '<a href="/user/toDetail?id=' + data[i].id + '" class="lbtn comment">⋅&nbsp;' + count + '&nbsp;评论</a>' +
+                            '<span class="lbtn">⋅&nbsp;' + timestampToTime1(data[i].ctime) + '</span>' +
+                            '</div></div></div></div></div></div></div>'));
+                    }
+                }
+            }
+        })
+    }
+
+    function getCommentCount(newsId) {
+        let count = null;
+        $.ajax({
+            url: '/user/getCommentCount',
+            data: {
+                newsId,
+            },
+            type: 'get',
+            dataType: 'json',
+            async: false,
+            success(data) {
+                count = data;
+            }
+        });
+        return count;
+    }
+
+    $('.search-content input').keypress((e) => {
+        if (e.keyCode === 13) {
+            toSearch();
+        }
+    });
+
+    function toSearch() {
+        let keyword = $('.search-content input').val();
+        if(keyword !== '') {
+            window.location.href = '/user/toSearch?keyword=' + keyword;
+        }
+    }
+
+
+</script>
+
+</html>

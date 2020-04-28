@@ -1,0 +1,180 @@
+@import "reset.css";
+@import "common.css";
+
+/* 统一设置 */
+
+a{
+    color: #41ac52;
+}
+input[type="text"], input[type="password"],input[type="email"] {
+    width: 100%;
+    border: 1px solid #e4e6e5;
+    box-sizing: border-box;
+    height: 40px;
+    padding-left: 10px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+h1 {
+    font-size: 30px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-top: 70px;
+}
+.container .login .form .space{
+    height: 16px;
+}
+.input-val {
+    width: 273px !important;
+}
+#canvas {
+    vertical-align: middle;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+}
+/* 统一设置结束 */
+
+.container {
+    width: 400px;
+    line-height: 2;
+    padding: 30px 10px 10px 10px; /*上右下左*/
+    color: #9b9b9b;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+.container .login .switch-menu {
+    border-bottom: 1px solid #ececec;
+    font-size: 13px;
+}
+.container .login .switch-menu span{
+    width: 50%;
+    text-align: center;
+    cursor: pointer;  
+}
+.container .login .switch-menu span.selected {
+    font-weight: bold;
+    color: #333;
+    border-bottom: 1px solid #494949;
+    margin-bottom: -1px;
+}
+.container .login .form .form-item {
+    margin: 10px 0;
+}
+.container .login .form .form-item .txt{
+    font-size: 12px;
+}
+.container .form-item .btn {
+    width: 100%;
+    height: 34px;
+    font-size: 15px;
+}
+.container .login .form .form-item.tip {
+    font-size: 13px;
+    color: #333;
+}
+.container .login .bottom{
+    border-top: 1px solid #ddd;
+}
+.container .login .bottom .msg {
+    font-size: 11px;
+    vertical-align: 2px;
+}
+.container .login .bottom .iconfont {
+    margin-left: 12px;
+}
+.container .login .bottom .iconfont.iconweixin {
+   color: #34950E;
+}
+.container .login .bottom .iconfont.iconQQ {
+    color: #1296db;
+}
+.container .login .form .form-item .msg {
+    color: darkred;
+    font-size: 12px;
+}
+.box-images-add {
+    float: left;
+    width: 98px;
+    height: 98px;
+    border: 1px dashed #ddd;
+    text-align: center;
+    line-height: 98px;
+    color: #a3a3a3;
+    font-size: 30px;
+    font-weight: 300;
+    position: relative;
+}
+.box-upload-form {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+.box-upload-file {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+.box-images-pic {
+    display: none;
+    float: left;
+    margin-left: 50px;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    font-size: 0;
+    position: relative;
+}
+.box-images-pic img {
+    width: 100%;
+    height: 100%;
+}
+.box-images-bg {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    background-color: #000;
+    opacity: .6;
+    filter: alpha(opacity=60);
+}
+.box-images-delete {
+    display: none;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+}
+.box-images-delete i {
+    display: block;
+    width: 12px;
+    height: 12px;
+    margin: 6px 0 0 6px;
+    background: url("../img/news-icon.png") 0 -160px no-repeat;
+}
+.box-images-pic:hover .box-images-bg,
+.box-images-pic:hover .box-images-delete {
+    display: block;
+}
+.msg-file {
+    display: inline-block;
+    margin-left: 35px;
+    height: 100px;
+    font-size: 16px;
+    line-height: 100px;
+}

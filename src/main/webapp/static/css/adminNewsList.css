@@ -1,0 +1,202 @@
+@import "reset.css";
+@import "common.css";
+
+
+/*统一样式*/
+button {
+    cursor: pointer;
+}
+a {
+    color: #333;
+}
+a:active {
+    color: #fff;
+}
+ul{
+    word-break: break-all;
+}
+/*统一样式结束*/
+
+/*搜索框开始*/
+.nav-search {
+    float: right;
+    height: 33px;
+    padding: 0 12px 0 15px;
+    margin-bottom: 23px;
+    background: #f4f4f4;
+    border-radius: 5px;
+}
+.nav-search input {
+    width: 150px;
+    height: 34px;
+    line-height: 34px;
+    background: none;
+    color: #cacaca;
+    font-size: 16px;
+    transition: width .3s ease-out;
+}
+.nav-search input:focus {
+    width: 220px;
+    color: #333;
+}
+.nav-search a {
+    color: rgb(211, 211, 211);
+    position: relative;
+    top: 0px;
+    cursor: pointer;
+    font-size: 18px;
+}
+/*搜索框结束*/
+
+.wrap {
+    width: 980px;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+.list .top{
+    border-bottom: 1px solid #99999C;
+    height: 50px;
+    line-height: 50px;
+}
+.top div {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+.top .time {
+    cursor: pointer;
+}
+.title {
+    width: 420px;
+}
+.author {
+    width: 140px;
+}
+.tag {
+    width: 100px;
+}
+.time {
+    width: 160px;
+}
+.operate {
+    width: 140px;
+}
+.item-list {
+    margin-top: 30px;
+}
+.item:first-child {
+    border-top: none;
+} 
+.item {
+    padding: 10px 0;
+    line-height: 30px;
+    font-size: 14px;
+    text-align: center;
+    border-top: 1px solid #99999C;
+}
+.del {
+    margin-left: 5px;
+}
+.item .update-btn,
+.item .del{
+    width: 60px;
+    height: 30px;
+    line-height: 30px;
+    color: #222;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 4px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    background-image: none;
+    transition: all .2s;
+    font-size: 14px;
+    text-decoration: none;
+}
+.del:hover,
+.update-btn:hover {
+    background: #00a1d6;
+    color: #fff;
+    border: 1px solid #00a1d6;
+}
+
+.bottom-page {
+    margin: 20px 0;
+    box-sizing: content-box;
+    font-size: 12px;
+}
+.bottom-page div.disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    background-color: #f4f4f4;
+    color: #cacaca;
+}
+.bottom-page .prev, 
+.bottom-page .next,
+.bottom-page .first-page,
+.bottom-page .last-page{
+    padding: 0 15px;
+    color: #222;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 4px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    background-image: none;
+    transition: all .2s;
+    font-size: 14px;
+    min-width: 15px;
+    margin: 0 2px;
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    text-decoration: none;
+}
+.bottom-page .next {
+    margin-left: 30px;
+}
+.bottom-page .prev:hover, 
+.bottom-page .next:hover,
+.bottom-page .first-page:hover,
+.bottom-page .last-page:hover {
+    background: #00a1d6;
+    color: #fff;
+    border: 1px solid #00a1d6;
+}
+.bottom-page .page-jump {
+    float: right;
+    color: #99a2aa;
+    line-height: 36px;
+}
+.bottom-page .page-jump input {
+    margin: 0 5px;
+    padding: 0 10px;
+    height: 24px;
+    line-height: 24px;
+    margin-top: 7px;
+    font-size: 12px;
+    box-shadow: none;
+    width: 24px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    outline: none;
+    text-align: center;
+}
+.pageTotal {
+    font-size: 18px;
+    border-bottom: 1px #eaeaea solid;
+    padding-top: 12px;
+}
+.pageTotal em {
+    color: #ff2f2f;
+}
+.pageNum {
+    display: inline-block;
+    margin-left: 30px;
+    font-size: 16px;
+    color: #99a2aa;
+}
+.pageNum em {
+    margin: 0 5px;
+    color: #333;
+}

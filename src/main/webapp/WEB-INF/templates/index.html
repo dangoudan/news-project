@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .some{
+            text-align: center;
+            font-size: 30px;
+        }
+        div{
+            width: 300px;
+            height: 500px;
+            background-color: wheat;
+            border: 2px solid black;
+            text-align: center;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -150px ;
+            margin-top: -250px;
+        }
+    </style>
+</head>
+<body>
+
+<div><p class="some">hello, kenji</p></div>
+
+<!--<li class="clearfix" th:each="news,newsStat:${latestNews}">&ndash;&gt;-->
+    <!--                    <a class="picture" th:href="@{/user/toDetail(id=${news.id})}">-->
+    <!--                        <img src="" th:alt="${news.title}" th:data-id="${news.id}">-->
+    <!--                    </a>-->
+    <!--                    <div class="detail">-->
+    <!--                        <h3>-->
+    <!--                            <a th:href="@{/user/toDetail(id=${news.id})}">-->
+    <!--                                <span class="iconfont iconhot"></span>-->
+    <!--                                [[${news.title}]]-->
+    <!--                            </a>-->
+    <!--                        </h3>-->
+    <!--                        <div class="tags"></div>-->
+    <!--                        <div class="info clearfix">-->
+    <!--                            <div class="left">-->
+    <!--                                <a href="#">[[${news.author}]]</a>-->
+    <!--                                <span class="time"></span>-->
+    <!--                            </div>-->
+    <!--                            <div class="right">-->
+    <!--                                <div class="share">-->
+    <!--                                    <span>分享</span>-->
+    <!--                                </div>-->
+    <!--                                <a th:href="@{/user/toDetail(id=${news.id})}" th:text="${commentCounts[newsStat.index]}"></a>-->
+    <!--                            </div>-->
+    <!--                        </div>-->
+    <!--                    </div>-->
+    <!--                </li>-->
+
+    <!--                    <li class="item clearfix" th:each="news,newsStat:${newsList}">-->
+    <!--                        <a th:href="@{/user/toDetail(id=${news.id})}" class="picture">-->
+    <!--                            <img src="" th:alt="${news.title}" th:data-id="${news.id}">-->
+    <!--                        </a>-->
+    <!--                        <div class="detail">-->
+    <!--                            <h3>-->
+    <!--                                <a th:href="@{/user/toDetail(id=${news.id})}">-->
+    <!--                                    [[${news.title}]]-->
+    <!--                                </a>-->
+    <!--                            </h3>-->
+    <!--                            <div class="tags"></div>-->
+    <!--                            <div class="binfo clearfix">-->
+    <!--                                <div class="left">-->
+    <!--                                    <a th:href="@{/user/toDetail(id=${news.id})}" class="source">[[${news.author}]]</a>-->
+    <!--                                    <span class="time"></span>-->
+    <!--                                </div>-->
+    <!--                                <div class="right">-->
+    <!--                                    <div class="i-share">-->
+    <!--                                        <span>分享</span>-->
+    <!--                                    </div>-->
+    <!--                                    <a th:href="@{/user/toDetail(id=${news.id})}" class="cmt"-->
+    <!--                                       th:text="${commentCounts[newsStat.index]}"></a>-->
+    <!--                                </div>-->
+    <!--                            </div>-->
+    <!--                        </div>-->
+    <!--                    </li>-->
+
+</body>
+</html>

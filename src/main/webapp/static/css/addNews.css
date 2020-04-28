@@ -1,0 +1,369 @@
+@import "reset.css";
+@import "common.css";
+
+/*统一样式*/
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: #333;
+}
+
+a:hover {
+    color: #2291f7;
+    /* background: #37a; */
+}
+
+a:active {
+    color: #fff;
+    background: #f93;
+}
+
+ul {
+    word-break: break-all;
+}
+b {
+    font-weight: bold;
+}
+p img {
+    display: block;
+    margin: 0 auto;
+    width: 600px;
+}
+.f22 {
+    font-size: 22px;
+}
+.f18 {
+    font-size: 18px;
+}
+/*统一样式结束*/
+
+/*文章顶部选项*/
+.container-white {
+    width: 980px;
+    margin: 0 auto;
+    font-size: 14px;
+    line-height: 1.5;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .12);
+    background-color: #fff;
+    margin-bottom: 100px !important;
+    padding-bottom: 0;
+    border-radius: 2px;
+}
+
+.container-white .edit-wrap {
+    position: relative;
+}
+
+.publish-editor .syl-editor-toolbar {
+    position: relative;
+    top: 0;
+    height: 34px;
+    line-height: 34px;
+    width: 956px;
+    background-color: #fafafa;
+    margin-bottom: 40px;
+    overflow: hidden;
+    padding: 14px 12px;
+    transition: 0.2s;
+    z-index: 1;
+}
+
+.publish-editor .syl-toolbar {
+    float: left;
+    font-size: 14px;
+    height: 34px;
+}
+
+.syl-toolbar-tool {
+    display: inline-block;
+    width: 20px;
+    height: 18px;
+    vertical-align: middle;
+    position: relative;
+}
+
+.syl-toolbar-tool i.iconbold {
+    margin-left: 2px;
+}
+.syl-toolbar-tool i {
+    display: block;
+    color: rgba(0, 0, 0, 0.54);
+    line-height: 18px;
+    cursor: pointer;
+}
+
+.syl-toolbar-tool i.icolor {
+    color: #3C8BFF;
+}
+
+.box-upload-icon {
+    display: block;
+    width: 20px;
+    height: 16px;
+    background: url("../img/news-icon.png") 0 0 no-repeat;
+}
+
+.box-upload-form {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+.box-upload-file {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+.publish-editor .syl-toolbar-divider {
+    width: 1px;
+    height: 20px;
+    padding: 0;
+    border: none;
+    background: #d8d8d8;
+    margin: 0 8px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/*文章顶部选项结束*/
+
+/*content*/
+.publish-editor-title {
+    padding: 0 80px;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.publish-editor-title .title-input {
+    min-height: 36px;
+    line-height: 36px;
+    font-size: 24px;
+    /* background-color: #f4f5f6; */
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    border: 0;
+    border-bottom: none;
+    font-weight: 700;
+    color: #222;
+    background-color: transparent;
+}
+
+.publish-editor-title .line {
+    width: 100%;
+    display: block;
+    border-bottom: 1px solid #99999C;
+}
+
+.publish-editor .syl-editor-wrap {
+    min-height: 500px;
+}
+
+.publish-editor .syl-editor {
+    margin: 0 80px 30px;
+}
+
+.publish-editor .syl-editor .ProseMirror {
+    min-height: 500px;
+    font-family: PingFang SC, Arial, Hiragino Sans GB, WenQuanYi Micro Hei, Helvetica Neue, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    color: #222;
+    font-size: 16px;
+}
+
+.publish-editor .ProseMirror.placeholeder:before {
+    content: "\8BF7\8F93\5165\6B63\6587...";
+    font-size: 14px;
+    font-family: PingFangSC-Regular,STHeiti,Microsoft YaHei,Helvetica,Arial,sans-serif;
+    color: #999;
+    line-height: 20px;
+    box-sizing: border-box;
+}
+
+.publish-editor .ProseMirror.ProseMirror-focused::before{
+    content: ""!important;
+}
+
+.publish-editor .ProseMirror>p {
+    line-height: 24px;
+    margin: 16px 0;
+}
+
+.syl-editor .ProseMirror>* {
+    cursor: text;
+    box-sizing: border-box;
+    user-select: text;
+}
+.syl-editor ul {
+    list-style-type: disc;
+    padding-left: 2em;
+    margin-bottom: 24px;
+}
+.syl-editor li {
+    margin: 0;
+    line-height: 32px;
+}
+.syl-editor ol {
+    list-style-type: decimal;
+    padding-left: 2em;
+    margin-bottom: 24px;
+}
+/*content end*/
+
+/*关联内容*/
+.form-wrap {
+    position: relative;
+}
+.form-wrap .form-container {
+    padding: 50px 0 12px;
+    margin: 0 80px;
+    border-top: 1px solid #d8d8d8;
+}
+
+.pgc-edit-cell {
+    width: 100%;
+    display: flex;
+    -webkit-box-align: start;
+    align-items: flex-start;
+    margin-bottom: 50px;
+}
+
+.pgc-edit-cell .edit-label {
+    flex-shrink: 0;
+    width: 64px;
+    font-size: 14px;
+}
+
+.form-wrap .pgc-edit-cell .edit-input {
+    -webkit-box-flex: 1;
+    flex: 1;
+}
+
+.pgc-edit-cell .edit-input {
+    margin-left: 64px;
+    font-size: 14px;
+    color: #222;
+}
+
+.article-cover {
+    display: inline-block;
+}
+
+.article-cover-images{
+    display: inline-block;
+    font-size: 14px;
+    color: #222;
+    vertical-align: bottom;
+    cursor: pointer;
+}
+
+.article-cover-add {
+    border: 1px dashed #d8d8d8;
+    background-color: #fafafa;
+    border-radius: 4px;
+}
+
+.article-cover-add,
+.article-cover-img-wrap {
+    position: relative;
+    width: 150px;
+    height: 105px;
+    margin-right: 12px;
+    display: inline-block;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.article-cover-add .article-cover-add-icon {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: -10px auto 0;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    background: url("../img/sv.svg") no-repeat;
+    background-size: contain;
+}
+.article-cover-img-wrap img {
+    border-radius: 4px;
+    width: 100%;
+    height: 100%;
+}
+.article-cover .article-cover-delete {
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    display: none;
+    width: 16px;
+    height: 16px;
+    background: url("../img/x.png") no-repeat rgba(0,0,0,.4);
+    background-size: contain;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.article-cover-img-wrap:hover .article-cover-delete {
+    display: block;
+}
+.article-cover-tip {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #999;
+}
+.tags-select {
+    border: 1px solid #999;
+    width: 150px;
+    font-size:12px;
+    cursor: pointer;
+    text-align: center;
+    height: 150px;
+}
+.tags-select option {
+    border-bottom: 1px dashed #999;
+}
+.radio:last-child {
+    margin-left: 72px;
+}
+.post-msg {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background-color: #FF5E5E;
+    color: #fff;
+    font-weight: 500;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+/*关联内容结束*/
+.publish-editor-fix-toolbar {
+    z-index: 100;
+}
+.sticky {
+    position: fixed!important;
+    top: 0!important;
+}
+.pgc-radio {
+    margin-bottom: 20px;
+}
+.pic-radio:last-child {
+    margin-left: 72px;
+}

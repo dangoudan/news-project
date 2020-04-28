@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/static/css/tagsList.css}">
+    <script th:src="@{/static/js/jquery.js}"></script>
+</head>
+<body>
+
+<div id="TopNav">
+    <div class="qq_header">
+        <div class="qq_navWrap" style="position: relative;">
+            <a href="" class="nav_logo">
+
+<!--                <h2 style="font-weight: bold; font-size: 20px">城院新闻网</h2>-->
+                <img src="/static/img/jyxw_01.jpg" alt="校园新闻网">
+            </a>
+            <div class="qq_nav">
+                <div class="nav-list clearfix">
+                    <ul class="main-list left">
+                        <!--<li th:each="tags,tagsStat:${tags}" th:class="${tags.id} == ${tagsId} ? 'item active' : 'item'" th:if="${tagsStat.index < 8}">-->
+                        <!-- <a th:href="@{/user/toNewsList}" th:text="${tags.tag}" th:if="${tagsStat.first}"></a>-->
+                        <!--  <a th:href="@{/user/toNewsTagsList(tagsId=${tags.id})}" th:text="${tags.tag}" th:unless="${tagsStat.first}"></a>-->
+                        <!--   </li>-->
+                    </ul>
+                    <div class="nav-more left nav-item">
+                            <span class="more-icon">
+                                <em class="open">更多+</em>
+                                <em class="close">收起-</em>
+                            </span>
+                        <div class="sub-nav">
+                            <div class="sub-tit">
+                                <h3>我的导航</h3>
+                            </div>
+                            <ul class="my-list clearfix"></ul>
+                            <div class="sub-tit">
+                                <h3>校园导航</h3>
+                            </div>
+                            <ul class="hot-list clearfix"></ul>
+                            <div class="sub-tit">
+                                <h3>更多导航</h3>
+                            </div>
+                            <ul class="more-list clearfix"></ul>
+                            <div class="sub">
+                                <button class="reset">恢复默认导航</button>
+                                <button class="cancel">取消</button>
+                                <button class="submit">确认</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="login-wrap hidden">
+                <div class="login clearfix">
+                    <div class="quick-area">
+                        <a href="/user/toMy?type=favor" class="quickLink">
+                            <em class="iconfont iconshoucang"></em>
+                            <div>收藏</div>
+                        </a>
+                    </div>
+                    <div class="quick-area">
+                        <a href="/user/toMy?type=comment" class="quickLink">
+                            <em class="iconfont iconreview"></em>
+                            <div>评论</div>
+                        </a>
+                    </div>
+                    <div class="quick-area">
+                        <a href="/user/toMy?type=record" class="quickLink">
+                            <em class="iconfont iconicon-xiaoxi"></em>
+                            <div>记录</div>
+                        </a>
+                    </div>
+                    <div class="login-area quick-area">
+                        <a href="/user/toMy?type=favor">
+                            <img src="" class="Face">
+                        </a>
+                        <div class="infoPop">
+                            <div class="nick"></div>
+                            <div class="line"></div>
+                            <a href="javascript:void 0" class="loginout" onclick="loginOut()"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="login-wrap">
+                <div class="login clearfix">
+                    <div class="login-area quick-area">
+                        <div>
+                            <a href="/user/toLogin" class="loginBtn">
+                                <em>一键登录</em>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-search">
+                <input type="text" name="keyword">
+                <a href="javascript:void 0" onclick="toSearch()" class="iconfont iconsousuo"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 热点 -->
+<div class="qq_content clearfix">
+    <div class="main left">
+        <div class="channel_mod">
+            <div class="focus3">
+                <div class="focus3_focus">
+                    <div class="react-swipe-container">
+                        <div class="focus3_li big" th:each="news,newsStat:${topNews}" th:if="${newsStat.first}">
+                            <a th:href="@{/user/toDetail(id=${news.id})}">
+                                <img src="" th:alt="${news.title}" th:data-id="${news.id}">
+                                <div class="text">
+                                    <b th:text="${news.title}"></b>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="focus3_li small" th:each="news,newsStat:${topNews}"
+                     th:unless="${newsStat.first}">
+                    <a th:href="@{/user/toDetail(id=${news.id})}">
+                        <img src="" th:alt="${news.title}" th:data-id="${news.id}">
+                        <div class="text">
+                            <b th:text="${news.title}"></b>
+                        </div>
+                    </a>
+                </div>
+                <!--                <div class="focus3_li small">-->
+                <!--                    <a href="">-->
+                <!--                        <img src="/static/img/asd.jpg" alt="">-->
+                <!--                        <div class="text">-->
+                <!--                            <b>极星2量产版正式下线 售价29.8万元起/对标特斯拉Model 3</b>-->
+                <!--                        </div>-->
+                <!--                    </a>-->
+                <!--                </div>-->
+            </div>
+            <div class="hotnews">
+                <h2>新鲜资讯</h2>
+                <ul class="list">
+                    <!--                    <li class="item clearfix">-->
+                    <!--                        <a href="" class="picture">-->
+                    <!--                            <img src="/static/img/asd.jpg" alt="">-->
+                    <!--                        </a>-->
+                    <!--                        <div class="detail">-->
+                    <!--                            <h3>-->
+                    <!--                                <a href="">-->
+                    <!--                                    极星2量产版正式下线 售价29.8万元起/对标特斯拉Model 3-->
+                    <!--                                </a>-->
+                    <!--                            </h3>-->
+                    <!--                            <div class="tags"></div>-->
+                    <!--                            <div class="binfo clearfix">-->
+                    <!--                                <div class="left">-->
+                    <!--                                    <a href="" class="source">互联网大佬说</a>-->
+                    <!--                                    <span class="time">5小时前</span>-->
+                    <!--                                </div>-->
+                    <!--                                <div class="right">-->
+                    <!--                                    <div class="i-share">-->
+                    <!--                                        <span>分享</span>-->
+                    <!--                                    </div>-->
+                    <!--                                    <a href="" class="cmt">1</a>-->
+                    <!--                                </div>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </li>-->
+                </ul>
+                <div class="more">加载中...</div>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar right">
+        <div class="right-bar">
+            <div class="hot-bar">
+                <div class="bar-title clearfix">
+                    <h2 class="left">
+                        <span class="bold">热门推荐</span>
+                    </h2>
+                </div>
+                <div class="bar-con">
+                    <ul>
+<!--                        <li class="clearfix" th:each="news:${hotNews}">-->
+<!--                            <div class="pic">-->
+<!--                                <a th:href="@{/user/toDetail(id=${news.id})}">-->
+<!--                                    <img src="" th:alt="${news.title}" th:data-id="${news.id}">-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                            <div class="txt">-->
+<!--                                <a th:href="@{/user/toDetail(id=${news.id})}" th:text="${news.title}"></a>-->
+<!--                            </div>-->
+<!--                        </li>-->
+<!--                        <li class="clearfix">-->
+<!--                            <div class="pic">-->
+<!--                                <a href="">-->
+<!--                                    <img src="/static/img/0.webp" alt="外交部发言人推特质问美国：欠我们一个解释">-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                            <div class="txt">-->
+<!--                                <a href="">外交部发言人推特质问美国：欠我们一个解释</a>-->
+<!--                            </div>-->
+<!--                        </li>-->
+<!--                        <li class="clearfix">-->
+<!--                            <div class="pic">-->
+<!--                                <a href="">-->
+<!--                                    <img src="/static/img/0.webp" alt="外交部发言人推特质问美国：欠我们一个解释">-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                            <div class="txt">-->
+<!--                                <a href="">外交部发言人推特质问美国：欠我们一个解释</a>-->
+<!--                            </div>-->
+<!--                        </li>-->
+<!--                        <li class="clearfix">-->
+<!--                            <div class="pic">-->
+<!--                                <a href="">-->
+<!--                                    <img src="/static/img/0.webp" alt="外交部发言人推特质问美国：欠我们一个解释">-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                            <div class="txt">-->
+<!--                                <a href="">外交部发言人推特质问美国：欠我们一个解释</a>-->
+<!--                            </div>-->
+<!--                        </li>-->
+<!--                        <li class="clearfix">-->
+<!--                            <div class="pic">-->
+<!--                                <a href="">-->
+<!--                                    <img src="/static/img/0.webp" alt="外交部发言人推特质问美国：欠我们一个解释">-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                            <div class="txt">-->
+<!--                                <a href="">外交部发言人推特质问美国：欠我们一个解释</a>-->
+<!--                            </div>-->
+<!--                        </li>-->
+                    </ul>
+                    <div class="more">查看更多</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 浮动框 -->
+<div class="fixed-bar">
+    <a href="javascript:void 0" class="item refresh">
+        <i class="icon-refresh"></i>
+        <span>刷新</span>
+    </a>
+<!--    <a href="" class="item">-->
+<!--            <span class="txt">-->
+<!--                用户-->
+<!--                <br>-->
+<!--                反馈-->
+<!--            </span>-->
+<!--    </a>-->
+    <a href="javascript:void 0" class="item jian" style="display: none">
+        <span class="iconfont iconicon_jiantou-shang"></span>
+    </a>
+</div>
+<script src="/static/js/format.js"></script>
+<script src="/static/js/cookie.js"></script>
+<script type="text/javascript" th:inline="javascript">
+
+    let tagsId = [[${tagsId}]];
+
+    function setSrc() {
+        let pic = [[${topNews}]];
+        $('.channel_mod .focus3 img').each(function (index, ele) {
+            for (let i = 0; i < pic.length; i++) {
+                if ($(ele).data('id') == pic[i].id) {
+                    $(ele).attr('src', "/user/getPic?path=" + JSON.parse(pic[i].picUrl).realFileName);
+                }
+            }
+        })
+    }
+    //
+    // function setHotSrc() {
+    //     let pic = [[${newsJson}]];
+    //     $('.bar-con img').each(function (index, ele) {
+    //         for (let i = 0; i < pic.length; i++) {
+    //             if ($(ele).data('id') == pic[i].id) {
+    //                 $(ele).attr('src', "/user/getPic?path=" + JSON.parse(pic[i].picUrl).realFileName);
+    //             }
+    //         }
+    //     })
+    // }
+
+    $('.nav-search input').keypress((e) => {
+        if (e.keyCode === 13) {
+            toSearch();
+        }
+    });
+
+    function toSearch() {
+        let keyword = $('.nav-search input').val();
+        if (keyword !== '') {
+            window.location.href = '/user/toSearch?keyword=' + keyword;
+        }
+    }
+
+    $('.refresh').click(function () {
+        window.location.href = window.location.href;
+    });
+
+    let topAction = document.querySelector('.jian');
+    let timer = null;
+    let ismove = false;
+    topAction.onclick = function(){
+        clearInterval(timer);
+        timer = setInterval(function(){
+            ismove = false;
+            let istop = document.documentElement.scrollTop || document.body.scrollTop;
+            let speed = Math.ceil(istop / 7);//使其每次变化量减少
+            document.documentElement.scrollTop = istop - speed;
+            if(istop == 0){
+                clearInterval(timer);
+            }
+        },20)
+
+    };
+    window.onscroll = function(){//触发滚动条事件
+        let istop = document.documentElement.scrollTop || document.body.scrollTop;//body与视口滚动条长度可能不一致 由于body有8px的margin和padding
+        if(istop > 0){
+            topAction.style.display = "block";
+        }else{
+            topAction.style.display = "none";
+        }
+        if(ismove){
+            clearInterval(timer);
+        }
+        ismove = true;
+    };
+
+</script>
+<script src="/static/js/tagsList.js"></script>
+<script src="/static/js/tagsPage.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/css/addTag.css">
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/jumpMsg.js"></script>
+    <script>
+        function submit() {
+            let tag = $('.tag input').val();
+            let radio = document.getElementsByClassName("radio");
+            let tagType = 0;
+            for (let i = 0; i < radio.length; i++) {
+                if (radio[i].checked) {
+                    tagType = radio[i].value;
+                }
+            }
+            console.log(tagType);
+            if(tag == null || tag == '') {
+                jumpBlock("标签内容不能为空");
+                return;
+            }
+            let xhr = new XMLHttpRequest();
+            xhr.open("get","/admin/addTags?tag=" + tag + "&tagType=" + tagType);
+            xhr.onreadystatechange = function(){
+                if(xhr.status == 200 && xhr.readyState == 4){
+                    let result = JSON.parse(xhr.responseText).msg;
+                    jumpBlock(result);
+                    $('.tag input').val('');
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</head>
+<body>
+
+<div class="wrap">
+    <div class="tag">
+        <input type="text">
+    </div>
+    <button class="submit" onclick="submit()">添加标签</button>
+    <div class="select">
+        <div class="normal">
+            <input type="radio" class="radio" name="tags" value="0" checked>&nbsp;&nbsp;普通
+        </div>
+        <div class="campus">
+            <input type="radio" class="radio" name="tags" value="1">&nbsp;&nbsp;校园
+        </div>
+    </div>
+</div>
+</body>
+</html>

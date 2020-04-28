@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/static/css/my.css}">
+    <script src="/static/js/jquery.js"></script>
+</head>
+<body>
+
+<!-- 头部 -->
+<div class="loginMod">
+    <div id="qq_navWrap">
+        <div class="qq_nav">
+            <ul class="clearfix">
+                <li th:each="tags,tagsStat:${tagsList}" th:if="${tagsStat.index < 12}">
+                    <a th:href="@{/user/toNewsList}" th:text="${tags.tag}" th:if="${tagsStat.first}" target="_blank"></a>
+                    <a th:href="@{/user/toNewsTagsList(tagsId=${tags.id})}" th:text="${tags.tag}" th:unless="${tagsStat.first}" target="_blank"></a>
+                </li>
+<!--                <li><a href="">首页</a></li>-->
+<!--                <li><a href="">新闻</a></li>-->
+<!--                <li><a href="">体育</a></li>-->
+<!--                <li><a href="">娱乐</a></li>-->
+<!--                <li><a href="">财经</a></li>-->
+<!--                <li><a href="">汽车</a></li>-->
+<!--                <li><a href="">房产</a></li>-->
+<!--                <li><a href="">科技</a></li>-->
+<!--                <li><a href="">游戏</a></li>-->
+<!--                <li><a href="">动漫</a></li>-->
+                <li class="moreNav">
+                    <a class="moreLink">更多<span class="moreNav1"></span></a>
+                    <div class="navmenu">
+                        <a th:each="tags,tagsStat:${tagsList}" th:if="${tagsStat.index >= 12}" th:href="@{/user/toNewsTagsList(tagsId=${tags.id})}" th:text="${tags.tag}" target="_blank"></a>
+<!--                        <a href="">都市</a>-->
+<!--                        <a href="">都市</a>-->
+<!--                        <a href="">都市</a>-->
+<!--                        <a href="">都市</a>-->
+<!--                        <a href="">都市</a>-->
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="loginWrap">
+        <div class="login clearfix">
+            <div class="quickArea menu">
+                <a href="/user/toMy?type=favor" target="_blank">
+                    <img src="" class="Face">
+                    <span class="nick"></span>
+                </a>
+                <div class="infoPop">
+                    <img src="" alt="" class="big-face">
+                    <a href="javascript:void 0" class="loginout" onclick="loginOut()"></a>
+                </div>
+            </div>
+            <div class="quickArea menu">
+                <a href="/user/toMy?type=comment" class="quickLink" title="我的评论" target="_blank">
+                    <em class="qcomment"></em>
+                    <span></span>
+                </a>
+            </div>
+            <div class="quickArea menu">
+                <a href="/user/toMy?type=record" class="quickLink" title="我的记录" target="_blank">
+                    <em class="qcollect"></em>
+                    <span></span>
+                </a>
+            </div>
+            <div class="quickArea menu">
+                <a href="/user/toMy?type=favor" class="quickLink" title="我的收藏" target="_blank">
+                    <em class="qlike"></em>
+                    <span></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 主体 -->
+<div class="layout clearfix">
+    <div class="left">
+        <div class="userMod">
+            <div class="pt">
+                <div class="pic">
+                    <img src="" alt="">
+                </div>
+                <div class="txt"><span></span>
+                </div>
+            </div>
+        </div>
+        <div class="navMod">
+            <div class="list">
+                <ul class="clearfix">
+                    <li class="now">
+                        <a href="javascript:" class="nav01">
+                            <span class="icon"></span>
+                            我的收藏
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:" class="nav02">
+                            <span class="icon"></span>
+                            我的评论
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:" class="nav03">
+                            <span class="icon"></span>
+                            浏览记录
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:" class="nav04">
+                            <span class="icon"></span>
+                            个人设置
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="right">
+        <div class="favor">
+            <div class="relatedFeed">
+                <ul></ul>
+            </div>
+            <div class="loadMycomment favor-more">加载更多</div>
+        </div>
+        <div class="wraper hidden">
+            <div class="mycenter-wrap">
+                <div class="mycenter-main">
+                    <div class="mycenter-short">
+                        <div id="mycommentWraper">
+                            <p class="my-short-total news_short">
+                                您共有<em class="news_short_num"></em>条评论
+                            </p>
+                            <ul class="comment-list">
+<!--                                <li class="np-post">-->
+<!--                                    <div class="np-post-body">-->
+<!--                                        <div class="np-post-content font16"> 这是几把哪的日本大学生 </div>-->
+<!--                                        <div class="news_title">-->
+<!--                                            <p>-->
+<!--                                                <a href="">《啊？超半数日本大学生没看过《龙珠》》</a>-->
+<!--                                            </p>-->
+<!--                                        </div>-->
+<!--                                        <div class="np-post-footer">-->
+<!--                                                <span class="coral-r font14">-->
+<!--                                                    <a href="" class="np-btn-delete">删除</a>-->
+<!--                                                </span>-->
+<!--                                            <span class="font14">2016/10/25 下午5:36 &nbsp;&nbsp;&nbsp;&nbsp;-->
+<!--                                                </span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                                <li class="np-post">-->
+<!--                                    <div class="np-post-body">-->
+<!--                                        <div class="np-post-content font16"> 这是几把哪的日本大学生 </div>-->
+<!--                                        <div class="news_title">-->
+<!--                                            <p>-->
+<!--                                                <a href="">《啊？超半数日本大学生没看过《龙珠》》</a>-->
+<!--                                            </p>-->
+<!--                                        </div>-->
+<!--                                        <div class="np-post-footer">-->
+<!--                                                <span class="coral-r font14">-->
+<!--                                                    <a href="" class="np-btn-delete">删除</a>-->
+<!--                                                </span>-->
+<!--                                            <span class="font14">2016/10/25 下午5:36 &nbsp;&nbsp;&nbsp;&nbsp;-->
+<!--                                                </span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                                <li class="np-post">-->
+<!--                                    <div class="np-post-body">-->
+<!--                                        <div class="np-post-content font16"> 这是几把哪的日本大学生 </div>-->
+<!--                                        <div class="news_title">-->
+<!--                                            <p>-->
+<!--                                                <a href="">《啊？超半数日本大学生没看过《龙珠》》</a>-->
+<!--                                            </p>-->
+<!--                                        </div>-->
+<!--                                        <div class="np-post-footer">-->
+<!--                                                <span class="coral-r font14">-->
+<!--                                                    <a href="" class="np-btn-delete">删除</a>-->
+<!--                                                </span>-->
+<!--                                            <span class="font14">2016/10/25 下午5:36 &nbsp;&nbsp;&nbsp;&nbsp;-->
+<!--                                                </span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                                <li class="np-post">-->
+<!--                                    <div class="np-post-body">-->
+<!--                                        <div class="np-post-content font16"> 这是几把哪的日本大学生 </div>-->
+<!--                                        <div class="news_title">-->
+<!--                                            <p>-->
+<!--                                                <a href="">《啊？超半数日本大学生没看过《龙珠》》</a>-->
+<!--                                            </p>-->
+<!--                                        </div>-->
+<!--                                        <div class="np-post-footer">-->
+<!--                                                <span class="coral-r font14">-->
+<!--                                                    <a href="" class="np-btn-delete">删除</a>-->
+<!--                                                </span>-->
+<!--                                            <span class="font14">2016/10/25 下午5:36 &nbsp;&nbsp;&nbsp;&nbsp;-->
+<!--                                                </span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+                            </ul>
+                        </div>
+                        <div class="loadMycomment comment-more">加载更多</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="history hidden">
+            <div class="relatedFeed">
+                <ul>
+<!--                    <li class="item">-->
+<!--                        <div class="item-inner y-box clearfix">-->
+<!--                            <div class="normal rbox">-->
+<!--                                <div class="rbox-inner">-->
+<!--                                    <div class="title-box">-->
+<!--                                        <a href="" class="link">去支教的“女杀手”</a>-->
+<!--                                    </div>-->
+<!--                                    <div class="y-box footer clearfix">-->
+<!--                                        <div class="y-left">-->
+<!--                                            <a href="" class="lbtn">2.5万阅读 ⋅</a>-->
+<!--                                            <a href="" class="lbtn"> 38评论 </a>-->
+<!--                                        </div>-->
+<!--                                        <div class="y-right">-->
+<!--                                            <span class="dislike"> 删除记录 </span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="lbox">-->
+<!--                                <a href="" class="img-wrap">-->
+<!--                                    <img src="/static/img/asd.jpg" alt="">-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--                    <li class="item">-->
+<!--                        <div class="item-inner y-box clearfix">-->
+<!--                            <div class="normal rbox">-->
+<!--                                <div class="rbox-inner">-->
+<!--                                    <div class="title-box">-->
+<!--                                        <a href="" class="link">去支教的“女杀手”</a>-->
+<!--                                    </div>-->
+<!--                                    <div class="y-box footer clearfix">-->
+<!--                                        <div class="y-left">-->
+<!--                                            <a href="" class="lbtn">2.5万阅读 ⋅</a>-->
+<!--                                            <a href="" class="lbtn"> 38评论 </a>-->
+<!--                                        </div>-->
+<!--                                        <div class="y-right">-->
+<!--                                            <span class="dislike"> 删除记录 </span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="lbox">-->
+<!--                                <a href="" class="img-wrap">-->
+<!--                                    <img src="/static/img/asd.jpg" alt="">-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </li>-->
+                </ul>
+            </div>
+            <div class="loadMycomment history-more">加载更多</div>
+        </div>
+        <div class="iSetup  hidden">
+            <div class="jbzlMod">
+                <div class="title">
+                    <h2>基本资料</h2>
+                </div>
+                <div class="txt">
+                    <p>
+                        <strong>帐号：</strong>
+                        <span></span>
+                    </p>
+                    <p>
+                        <strong>email：</strong>
+                        <span></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/static/js/format.js"></script>
+<script src="/static/js/jumpMsg.js"></script>
+<script type="text/javascript" th:inline="javascript">
+
+    let favorMore = {
+        offset: 1,
+        size: 10,
+        total: 0
+    };
+
+    let commentMore = {
+        offset: 1,
+        size: 10,
+        total: 0
+    };
+
+    let historyMore = {
+        offset: 1,
+        size: 10,
+        total: 0
+    };
+
+    (function() {
+        let type = [[${type}]];
+        console.log(type);
+        getFavorCount();
+        getUserCommentCount();
+        getHistoryCount();
+        switch (type) {
+            case 'favor':
+                break;
+            case 'comment':
+                $('.navMod li.now').removeClass('now').next().addClass('now');
+                $('.right .favor').addClass('hidden');
+                $('.right .wraper').removeClass('hidden');
+                break;
+            case 'record':
+                $('.navMod li.now').removeClass('now').next().next().addClass('now');
+                $('.right .favor').addClass('hidden');
+                $('.right .history').removeClass('hidden');
+                break;
+        }
+        favor(0, 10);
+        comment(0, 10);
+        history(0, 10);
+    })();
+
+    function getFavorCount() {
+        $.ajax({
+            url: '/user/getFavorCount',
+            type: 'get',
+            datatype: 'json',
+            success(data) {
+                favorMore.total = data;
+            }
+        });
+    }
+
+    function getHistoryCount() {
+        $.ajax({
+            url: '/user/getRecordCount',
+            type: 'get',
+            datatype: 'json',
+            success(data) {
+                historyMore.total = data;
+            }
+        });
+    }
+
+    function getUserCommentCount() {
+        $.ajax({
+            url: '/user/getUserCommentCount',
+            type: 'get',
+            dataType: 'json',
+            async: false,
+            success(data) {
+                commentMore.total = data;
+            }
+        });
+    }
+
+    function getCommentCount(newsId) {
+        let count = null;
+        $.ajax({
+            url: '/user/getCommentCount',
+            data: {
+                newsId,
+            },
+            type: 'get',
+            dataType: 'json',
+            async: false,
+            success(data) {
+                count = data;
+            }
+        });
+        return count;
+    }
+
+    $('.favor-more').click(function () {
+        favor(favorMore.offset * favorMore.size, favorMore.size);
+        favorMore.offset++;
+        if (favorMore.offset * favorMore.size >= favorMore.total) {
+            $(this).remove();
+        }
+    });
+
+    $('.comment-more').click(function () {
+        comment(commentMore.offset * commentMore.size, commentMore.size);
+        commentMore.offset++;
+        if (commentMore.offset * commentMore.size >= commentMore.total) {
+            $(this).remove();
+        }
+    });
+
+    $('.history-more').click(function () {
+        history(historyMore.offset * historyMore.size, historyMore.size);
+        historyMore.offset++;
+        if (historyMore.offset * historyMore.size >= historyMore.total) {
+            $(this).remove();
+        }
+    });
+
+    function favor(offset, size) {
+        $.ajax({
+            url: '/user/favorList',
+            type: 'get',
+            data: {
+                offset,
+                size
+            },
+            datatype: 'json'
+        }).then(data => {
+            data = JSON.parse(data);
+            let result = JSON.parse(data.data);
+            for(let i = 0; i < result.length; i++) {
+                let count = getCommentCount(result[i].id);
+                if(result[i].picUrl != null) {
+                    $('.favor ul').append($('<li class="item">' +
+                        '<div class="item-inner y-box clearfix">' +
+                        '<div class="normal rbox">' +
+                        '<div class="rbox-inner">' +
+                        '<div class="title-box">' +
+                        '<a href="/user/toDetail?id=' + result[i].id + '" class="link">' + result[i].title + '</a>' +
+                        '</div>' +
+                        '<div class="y-box footer clearfix">' +
+                        '<div class="y-left">' +
+                        '<a href="/user/toDetail?id=' + result[i].id + '" class="lbtn">' + result[i].views + '次阅读&nbsp;⋅</a>' +
+                        '<a href="/user/toDetail?id=' + result[i].id + '" class="lbtn">&nbsp;' + count + '评论&nbsp;</a>' +
+                        '<span class="lbtn">⋅&nbsp;' + timestampToTime1(result[i].ctime) + '</span>' +
+                        '</div>' +
+                        '<div class="y-right">' +
+                        '<span class="dislike" data-id="' + result[i].id + '">&nbsp;取消收藏&nbsp;</span>' +
+                        '</div></div></div></div>' +
+                        '<div class="lbox">' +
+                        '<a href="/user/toDetail?id=' + result[i].id + '" class="img-wrap">' +
+                        '<img src="/user/getPic?path=' + JSON.parse(result[i].picUrl).realFileName + '" alt="">' +
+                        '</a></div></div></li>'))
+                }else {
+                    $('.favor ul').append($('<li class="item">' +
+                        '<div class="item-inner y-box clearfix">' +
+                        '<div class="normal box">' +
+                        '<div class="rbox-inner">' +
+                        '<div class="title-box">' +
+                        '<a href="/user/toDetail?id=' + result[i].id + '" class="link">' + result[i].title + '</a>' +
+                        '</div>' +
+                        '<div class="y-box footer clearfix">' +
+                        '<div class="y-left">' +
+                        '<a href="/user/toDetail?id=' + result[i].id + '" class="lbtn">' + result[i].views + '次阅读&nbsp;⋅</a>' +
+                        '<a href="/user/toDetail?id=' + result[i].id + '" class="lbtn">&nbsp;' + count + '评论&nbsp;</a>' +
+                        '<span class="lbtn">⋅&nbsp;' + timestampToTime1(result[i].ctime) + '</span>' +
+                        '</div>' +
+                        '<div class="y-right">' +
+                        '<span class="dislike" data-id="' + result[i].id + '">&nbsp;取消收藏&nbsp;</span>' +
+                        '</div></div></div></div>'))
+                }
+            }
+            delFavor();
+        })
+    }
+
+    function delFavor() {
+        $('.dislike').unbind('click');
+        $('.dislike').click(function () {
+            let newsId = $(this).data('id');
+            $.ajax({
+                url: '/user/cancelFavor',
+                data: {
+                    newsId
+                },
+                type: 'get',
+                dataType: 'json',
+            }).then(data => {
+                if(data.status === 'OK') {
+                    jumpBlock("删除成功");
+                    $(this).closest('.item').remove();
+                }
+            });
+        })
+    }
+
+    function comment(offset, size) {
+        let count = commentMore.total;
+        $('.news_short_num').text(count);
+        $.ajax({
+            url: '/user/getUserCommentAndReply',
+            type: 'get',
+            dataType: 'json'
+        }).then(data => {
+            console.log(data);
+            for(let i = offset; i < offset + size && i < data.length; i++) {
+                $('.comment-list').append($('<li class="np-post">' +
+                    '<div class="np-post-body">' +
+                    '<div class="np-post-content font16"> ' + data[i].content + ' </div>' +
+                    '<div class="news_title">' +
+                    '<p>' +
+                    '<a href="/user/toDetail?id=' + data[i].newsId + '">' + data[i].title + '</a>' +
+                    '</p></div>' +
+                    '<div class="np-post-footer">' +
+                    '<span class="coral-r font14">' +
+                    '<a href="javascript:void 0" data-id="' + data[i].id + '" data-comment-or-reply="' + data[i].commentOrReply + '" class="np-btn-delete">删除</a>' +
+                    '</span>' +
+                    '<span class="font14">' + timestampToTime1(data[i].ctime) + ' &nbsp;&nbsp;&nbsp;&nbsp;' +
+                    '</span></div></div></li>'));
+            }
+            delComment();
+        })
+    }
+
+    function delComment() {
+        $('.np-btn-delete').unbind('click');
+        $('.np-btn-delete').click(function () {
+            let id = $(this).data('id');
+            let commentOrReply = $(this).data('commentOrReply');
+            $.ajax({
+                url: '/user/delComment',
+                data: {
+                  commentOrReply,
+                  id
+                },
+                type: 'get',
+            }).then(data => {
+                if(data === 'OK') {
+                    jumpBlock("删除成功");
+                    $(this).closest('.np-post').remove();
+                }
+            });
+        })
+    }
+
+    function history(offset, size) {
+        $.ajax({
+            url: '/user/getRecords',
+            type: 'get',
+            datatype: 'json'
+        }).then(data => {
+            data = JSON.parse(data);
+            let result = JSON.parse(data.data);
+            for(let i = offset; i < offset + size && i < result.length; i++) {
+                let obj = JSON.parse(result[result.length - 1 - i]);
+                let count = getCommentCount(obj.id);
+                if(obj.picUrl != null) {
+                    $('.history ul').append($('<li class="item">' +
+                        '<div class="item-inner y-box clearfix">' +
+                        '<div class="normal rbox">' +
+                        '<div class="rbox-inner">' +
+                        '<div class="title-box">' +
+                        '<a href="/user/toDetail?id=' + obj.id + '" class="link">' + obj.title + '</a>' +
+                        '</div>' +
+                        '<div class="y-box footer clearfix">' +
+                        '<div class="y-left">' +
+                        '<a href="/user/toDetail?id=' + obj.id + '" class="lbtn">' + obj.views + '次阅读&nbsp;⋅</a>' +
+                        '<a href="/user/toDetail?id=' + obj.id + '" class="lbtn">&nbsp;' + count + '评论&nbsp;</a>' +
+                        '<span class="lbtn">⋅&nbsp;' + timestampToTime1(obj.ctime) + '</span>' +
+                        '</div>' +
+                        '<div class="y-right">' +
+                        '<span class="dislike" data-id="' + obj.id + '">&nbsp;删除记录&nbsp;</span>' +
+                        '</div></div></div></div>' +
+                        '<div class="lbox">' +
+                        '<a href="/user/toDetail?id=' + obj.id + '" class="img-wrap">' +
+                        '<img src="/user/getPic?path=' + JSON.parse(obj.picUrl).realFileName + '" alt="">' +
+                        '</a></div></div></li>'))
+                }else {
+                    $('.history ul').append($('<li class="item">' +
+                        '<div class="item-inner y-box clearfix">' +
+                        '<div class="normal box">' +
+                        '<div class="rbox-inner">' +
+                        '<div class="title-box">' +
+                        '<a href="/user/toDetail?id=' + obj.id + '" class="link">' + obj.title + '</a>' +
+                        '</div>' +
+                        '<div class="y-box footer clearfix">' +
+                        '<div class="y-left">' +
+                        '<a href="/user/toDetail?id=' + obj.id + '" class="lbtn">' + obj.views + '次阅读&nbsp;⋅</a>' +
+                        '<a href="/user/toDetail?id=' + obj.id + '" class="lbtn">&nbsp;' + count + '评论&nbsp;</a>' +
+                        '<span class="lbtn">⋅&nbsp;' + timestampToTime1(obj.ctime) + '</span>' +
+                        '</div>' +
+                        '<div class="y-right">' +
+                        '<span class="dislike" data-id="' + obj.id + '">&nbsp;删除记录&nbsp;</span>' +
+                        '</div></div></div></div>'))
+                }
+            }
+            delRecord();
+        })
+    }
+
+    function delRecord() {
+        $('.dislike').unbind('click');
+        $('.dislike').click(function () {
+            let newsId = $(this).data('id');
+            $.ajax({
+                url: '/user/delRecord',
+                data: {
+                    newsId
+                },
+                type: 'get',
+                dataType: 'json',
+            }).then(data => {
+                if(data.status === 'OK') {
+                    jumpBlock("删除成功");
+                    $(this).closest('.item').remove();
+                }
+            });
+        })
+    }
+
+
+    $('.navMod ul').click(function (e) {
+        $(this).find('li').each(function (index, ele) {
+            $(ele).removeClass('now');
+        });
+        if (e.target.tagName === 'A') {
+            $(e.target).closest('li').addClass('now');
+            $('.right').children().addClass('hidden');
+            switch ($(e.target).attr('class')) {
+                case 'nav01':
+                    $('.right .favor').removeClass('hidden');
+                    // favor();
+                    return;
+                case 'nav02':
+                    $('.right .wraper').removeClass('hidden');
+                    // comment();
+                    return;
+                case 'nav03':
+                    $('.right .history').removeClass('hidden');
+                    // history();
+                    return;
+                case 'nav04':
+                    $('.right .iSetup').removeClass('hidden');
+                    return;
+            }
+        }
+    })
+
+</script>
+
+<script src="/static/js/myCookie.js"></script>
+</body>
+</html>

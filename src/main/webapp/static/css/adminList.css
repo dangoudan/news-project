@@ -1,0 +1,104 @@
+@import "reset.css";
+@import "common.css";
+
+
+/*统一样式*/
+/* body {
+    line-height: 2;
+} */
+button {
+    cursor: pointer;
+}
+a {
+    color: #333;
+}
+a:hover {
+    color: #2291f7;
+    /* background: #37a; */
+}
+a:active {
+    color: #fff;
+    background: #f93;
+}
+ul{
+    word-break: break-all;
+}
+
+.loginout {
+    border: 1px solid #e2e2e2;
+    padding: 2px;
+    margin-right: 5px;
+}
+/*统一样式结束*/
+
+header{
+    height: 80px;
+    border-bottom: 1px solid gray;
+}
+.tit {
+    width: 1000px;
+    position: relative;
+}
+h1{
+    line-height: 80px;
+    font-size: 20px;
+    position: absolute;
+    right: 0;
+    font-weight: bold;
+}
+.admin {
+    float: right;
+    line-height: 80px;
+    margin: 0 50px;
+    color: #000;
+}
+.admin .name {
+    padding-left: 15px;
+    color: aqua;
+    font-weight: bold;
+}
+.qq_content {
+    width: 1240px;
+    min-width: 700px;
+    margin: 0 auto;
+}
+.qq_content .main {
+    width: 200px;
+    min-height: 100px;
+}
+.qq_content .sidebar {
+    width: 1040px;
+}
+.ch2-mod {
+    width: 170px;
+    background-color: #fff;
+}
+.ch2-list {
+    border: 1px solid #f0f0f0;
+    overflow: hidden;
+}
+.ch2-list .item:first-child {
+    border-top: none;
+}
+.ch2-list .item {
+    border-top: 1px solid #f0f0f0;
+}
+.ch2-list .item a {
+    position: relative;
+    display: block;
+    color: #666;
+    font-size: 16px;
+    height: 56px;
+    line-height: 56px;
+    text-align: center;
+    background-color: #fff;
+}
+.ch2-list .item a.active {
+    color: #4889f3;
+    background: #f3f6f8;
+}
+#ifr {
+    border: 1px solid #f0f0f0;
+    border-top: none;
+    border-bottom: none;
+}

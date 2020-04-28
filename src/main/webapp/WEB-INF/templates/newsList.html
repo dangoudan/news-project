@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/static/css/index.css}">
+    <script th:src="@{/static/js/jquery.js}"></script>
+</head>
+<body>
+
+<div id="TopNav">
+    <div class="qq_header">
+        <div class="qq_navWrap" style="position: relative;">
+            <a href="" class="nav_logo">
+<!--                <h2 style="font-weight: bold; font-size: 20px">城院新闻网</h2>-->
+                <img src="/static/img/jyxw_01.jpg" alt="校园新闻网">
+            </a>
+            <div class="qq_nav">
+                <div class="nav-list clearfix">
+                    <ul class="main-list left">
+<!--                        <li th:each="tags,tagsStat:${tags}" th:class="${tagsStat.first} ? 'item active' : 'item'" th:if="${tagsStat.index < 8}">-->
+<!--                            <a th:href="@{/user/toNewsTagsList(tagsId=${tags.id})}" th:text="${tags.tag}"></a>-->
+<!--                        </li>-->
+                    </ul>
+                    <div class="nav-more left nav-item">
+                            <span class="more-icon">
+                                <em class="open">更多+</em>
+                                <em class="close">收起-</em>
+                            </span>
+                        <div class="sub-nav">
+                            <div class="sub-tit">
+                                <h3>我的导航</h3>
+                            </div>
+                            <ul class="my-list clearfix">
+<!--                                <li th:each="tags,tagsStat:${tags}" th:class="${tagsStat.first} ? 'disabled' : 'item'" th:if="${tagsStat.index < 8}">-->
+<!--                                    <a th:href="@{/user/toNewsTagsList(tagsId=${tags.id})}" th:text="${tags.tag}"></a>-->
+<!--                                    <i th:unless="${tagsStat.first}"></i>-->
+<!--                                </li>-->
+<!--                                <li class="disabled">-->
+<!--                                    <a href="">要闻</a>-->
+<!--                                </li>-->
+<!--                                <li class="item">-->
+<!--                                    <a href="">要闻</a>-->
+<!--                                    <i></i>-->
+<!--                                </li>-->
+<!--                                <li class="item">-->
+<!--                                    <a href="">要闻</a>-->
+<!--                                    <i></i>-->
+<!--                                </li>-->
+<!--                                <li class="item">-->
+<!--                                    <a href="">要闻</a>-->
+<!--                                    <i></i>-->
+<!--                                </li>-->
+<!--                                <li class="item">-->
+<!--                                    <a href="">要闻</a>-->
+<!--                                    <i></i>-->
+<!--                                </li>-->
+<!--                                <li class="item">-->
+<!--                                    <a href="">要闻</a>-->
+<!--                                    <i></i>-->
+<!--                                </li>-->
+<!--                                <li class="item">-->
+<!--                                    <a href="">要闻</a>-->
+<!--                                    <i></i>-->
+<!--                                </li>-->
+<!--                                <li class="item">-->
+<!--                                    <a href="">要闻</a>-->
+<!--                                    <i></i>-->
+<!--                                </li>-->
+<!--                                <li class="item">-->
+<!--                                    <a href="">要闻</a>-->
+<!--                                    <i></i>-->
+<!--                                </li>-->
+<!--                                <li class="item">-->
+<!--                                    <a href="">要闻</a>-->
+<!--                                    <i></i>-->
+<!--                                </li>-->
+                            </ul>
+                            <div class="sub-tit">
+                                <h3>校园导航</h3>
+                            </div>
+                            <ul class="hot-list clearfix">
+<!--                                <li class="item"><a href="">校园资讯</a></li>-->
+<!--                                <li class="item"><a href="">校园活动</a></li>-->
+<!--                                <li class="item"><a href="">专业技术</a></li>-->
+<!--                                <li class="item"><a href="">语言专栏</a></li>-->
+<!--                                <li class="item"><a href="">校园风采</a></li>-->
+<!--                                <li class="item"><a href="">求职就业</a></li>-->
+                            </ul>
+                            <div class="sub-tit">
+                                <h3>更多导航</h3>
+                            </div>
+                            <ul class="more-list clearfix">
+<!--                                <li th:each="tags,tagsStat:${tags}" class="item" th:if="${tagsStat.index >= 8}">-->
+<!--                                    <a th:href="@{/user/toNewsTagsList(tagsId=${tags.id})}" th:text="${tags.tag}"></a>-->
+<!--                                </li>-->
+                            </ul>
+                            <div class="sub">
+                                <button class="reset">恢复默认导航</button>
+                                <button class="cancel">取消</button>
+                                <button class="submit">确认</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="login-wrap hidden">
+                <div class="login clearfix">
+                    <div class="quick-area">
+                        <a href="/user/toMy?type=favor" class="quickLink">
+                            <em class="iconfont iconshoucang"></em>
+                            <div>收藏</div>
+                        </a>
+                    </div>
+                    <div class="quick-area">
+                        <a href="/user/toMy?type=comment" class="quickLink">
+                            <em class="iconfont iconreview"></em>
+                            <div>评论</div>
+                        </a>
+                    </div>
+                    <div class="quick-area">
+                        <a href="/user/toMy?type=record" class="quickLink">
+                            <em class="iconfont iconicon-xiaoxi"></em>
+                            <div>记录</div>
+                        </a>
+                    </div>
+                    <div class="login-area quick-area">
+                        <a href="/user/toMy?type=favor">
+                            <img src="" class="Face">
+                        </a>
+                        <div class="infoPop">
+                            <div class="nick"></div>
+                            <div class="line"></div>
+                            <a href="javascript:void 0" class="loginout" onclick="loginOut()"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="login-wrap">
+                <div class="login clearfix">
+                    <div class="login-area quick-area">
+                        <div>
+                            <a href="/user/toLogin" class="loginBtn">
+                                <em>一键登录</em>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-search">
+                <input type="text" name="keyword">
+                <a href="javascript:void 0" onclick="toSearch()" class="iconfont iconsousuo"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 热点 -->
+<div class="section">
+    <div class="news-title content clearfix">
+        <h2 class="left">校园热点</h2>
+        <div class="right">
+            <span class="time" th:text="${date}"></span>
+            <span class="weather">
+                    <img src="/static/img/cloud.png" alt="">
+<!--                    西安市 12° 多云-->
+            </span>
+        </div>
+    </div>
+    <div class="content clearfix">
+        <!-- 右边栏 -->
+        <div class="aside-right">
+            <div class="top">
+                <div class="tip">
+                    <h2>
+<!--                        <img src="/static/img/jrhtLogo.png" alt="今日话题">-->
+                        <span>校园公告</span>
+                    </h2>
+                </div>
+                <div class="bd">
+                    <ul class="list">
+                        <li th:each="news:${topNews}">
+                            <a th:href="@{/user/toDetail(id=${news.id})}" th:text="${news.title}"></a>
+                        </li>
+<!--                        <li>-->
+<!--                            <a href="">正当防卫判决稀少，本就是生活的常态 | 特别策划（二）</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="">让正当防卫制度成为“活的法律”，且持久永恒 | 今日话题特别策划（一）</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="">首日预售破1.3亿的春节档：除了热闹，能留下经典吗</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="">百名中国游客泰国机场遭野蛮搜身？不必夸大其词</a>-->
+<!--                        </li>-->
+                    </ul>
+                </div>
+            </div>
+            <div class="hot-bar">
+                <div class="bar-title clearfix">
+                    <h2 class="left">
+                        <span class="bold">热评文章</span>
+                    </h2>
+                </div>
+                <div class="bar-con">
+                    <ul>
+<!--                        <li class="clearfix" th:each="news,newsStat:${hotCommentNews}" th:if="${newsStat.index < 5}">-->
+<!--                            <div class="pic">-->
+<!--                                <a th:href="@{/user/toDetail(id=${news.id})}">-->
+<!--                                    <img src="" th:alt="${news.title}" th:data-id="${news.id}">-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                            <div class="txt">-->
+<!--                                <a th:href="@{/user/toDetail(id=${news.id})}" th:text="${news.title}"></a>-->
+<!--                            </div>-->
+<!--                        </li>-->
+<!--                        <li class="clearfix">-->
+<!--                            <div class="pic">-->
+<!--                                <a href="">-->
+<!--                                    <img src="/static/img/0.webp" alt="外交部发言人推特质问美国：欠我们一个解释">-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                            <div class="txt">-->
+<!--                                <a href="">外交部发言人推特质问美国：欠我们一个解释</a>-->
+<!--                            </div>-->
+<!--                        </li>-->
+<!--                        <li class="clearfix">-->
+<!--                            <div class="pic">-->
+<!--                                <a href="">-->
+<!--                                    <img src="/static/img/0.webp" alt="外交部发言人推特质问美国：欠我们一个解释">-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                            <div class="txt">-->
+<!--                                <a href="">外交部发言人推特质问美国：欠我们一个解释</a>-->
+<!--                            </div>-->
+<!--                        </li>-->
+<!--                        <li class="clearfix">-->
+<!--                            <div class="pic">-->
+<!--                                <a href="">-->
+<!--                                    <img src="/static/img/0.webp" alt="外交部发言人推特质问美国：欠我们一个解释">-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                            <div class="txt">-->
+<!--                                <a href="">外交部发言人推特质问美国：欠我们一个解释</a>-->
+<!--                            </div>-->
+<!--                        </li>-->
+<!--                        <li class="clearfix">-->
+<!--                            <div class="pic">-->
+<!--                                <a href="">-->
+<!--                                    <img src="/static/img/0.webp" alt="外交部发言人推特质问美国：欠我们一个解释">-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                            <div class="txt">-->
+<!--                                <a href="">外交部发言人推特质问美国：欠我们一个解释</a>-->
+<!--                            </div>-->
+<!--                        </li>-->
+                    </ul>
+                    <div class="more">查看更多</div>
+                </div>
+            </div>
+        </div>
+        <!-- 内容 -->
+        <div class="main">
+            <ul>
+                <li th:each="news,newsStat:${newsList}">
+                    <h3 th:class="${newsStat.first} ? 'bold' : ''">
+                        <a th:href="@{/user/toDetail(id=${news.id})}" th:text="${news.title}"></a>
+                    </h3>
+                </li>
+<!--                <li>-->
+<!--                    <h3>-->
+<!--                        <a href="">“武汉人喜欢吃活鱼，多组织供应”</a>-->
+<!--                    </h3>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <h3>-->
+<!--                        <a href="">药监局已审批16个新冠病毒检测试剂</a>-->
+<!--                    </h3>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <h3>-->
+<!--                        <a href="">我国疫情高峰已过去</a>-->
+<!--                    </h3>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <h3>-->
+<!--                        <a href="">绝不能因疫情影响脱贫攻坚</a>-->
+<!--                    </h3>-->
+<!--                </li>-->
+            </ul>
+            <div class="bar-tit">
+                <h3 class="bold">新鲜资讯</h3>
+            </div>
+            <ul class="list">
+<!--                <li class="clearfix">-->
+<!--                    <a class="picture" href="">-->
+<!--                        <img src="/static/img/1.webp" alt="湖北司法厅长慰问民警引热议，被查后能否继续在岗工作？">-->
+<!--                    </a>-->
+<!--                    <div class="detail">-->
+<!--                        <h3>-->
+<!--                            <a href="">-->
+<!--                                <span class="iconfont iconhot"></span>-->
+<!--                                湖北司法厅长慰问民警引热议，被查后能否继续在岗工作？-->
+<!--                            </a>-->
+<!--                        </h3>-->
+<!--                        <div class="tags"></div>-->
+<!--                        <div class="info clearfix">-->
+<!--                            <div class="left">-->
+<!--                                <a href="">观察者网</a>-->
+<!--                                <span class="time">6小时前</span>-->
+<!--                            </div>-->
+<!--                            <div class="right">-->
+<!--                                <div class="share">-->
+<!--                                    <span>分享</span>-->
+<!--                                </div>-->
+<!--                                <a href="">5324</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--                <li class="clearfix">-->
+<!--                    <a class="picture" href="">-->
+<!--                        <img src="/static/img/1.webp" alt="湖北司法厅长慰问民警引热议，被查后能否继续在岗工作？">-->
+<!--                    </a>-->
+<!--                    <div class="detail">-->
+<!--                        <h3>-->
+<!--                            <a href="">-->
+<!--                                <span class="iconfont iconhot"></span>-->
+<!--                                湖北司法厅长慰问民警引热议，被查后能否继续在岗工作？-->
+<!--                            </a>-->
+<!--                        </h3>-->
+<!--                        <div class="tags"></div>-->
+<!--                        <div class="info clearfix">-->
+<!--                            <div class="left">-->
+<!--                                <a href="">观察者网</a>-->
+<!--                                <span class="time">6小时前</span>-->
+<!--                            </div>-->
+<!--                            <div class="right">-->
+<!--                                <div class="share">-->
+<!--                                    <span>分享</span>-->
+<!--                                </div>-->
+<!--                                <a href="">5324</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--                <li class="clearfix">-->
+<!--                    <a class="picture" href="">-->
+<!--                        <img src="/static/img/1.webp" alt="湖北司法厅长慰问民警引热议，被查后能否继续在岗工作？">-->
+<!--                    </a>-->
+<!--                    <div class="detail">-->
+<!--                        <h3>-->
+<!--                            <a href="">-->
+<!--                                <span class="iconfont iconhot"></span>-->
+<!--                                湖北司法厅长慰问民警引热议，被查后能否继续在岗工作？-->
+<!--                            </a>-->
+<!--                        </h3>-->
+<!--                        <div class="tags"></div>-->
+<!--                        <div class="info clearfix">-->
+<!--                            <div class="left">-->
+<!--                                <a href="">观察者网</a>-->
+<!--                                <span class="time">6小时前</span>-->
+<!--                            </div>-->
+<!--                            <div class="right">-->
+<!--                                <div class="share">-->
+<!--                                    <span>分享</span>-->
+<!--                                </div>-->
+<!--                                <a href="">5324</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--                <li class="clearfix">-->
+<!--                    <a class="picture" href="">-->
+<!--                        <img src="/static/img/1.webp" alt="湖北司法厅长慰问民警引热议，被查后能否继续在岗工作？">-->
+<!--                    </a>-->
+<!--                    <div class="detail">-->
+<!--                        <h3>-->
+<!--                            <a href="">-->
+<!--                                <span class="iconfont iconhot"></span>-->
+<!--                                湖北司法厅长慰问民警引热议，被查后能否继续在岗工作？-->
+<!--                            </a>-->
+<!--                        </h3>-->
+<!--                        <div class="tags"></div>-->
+<!--                        <div class="info clearfix">-->
+<!--                            <div class="left">-->
+<!--                                <a href="">观察者网</a>-->
+<!--                                <span class="time">6小时前</span>-->
+<!--                            </div>-->
+<!--                            <div class="right">-->
+<!--                                <div class="share">-->
+<!--                                    <span>分享</span>-->
+<!--                                </div>-->
+<!--                                <a href="">5324</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </li>-->
+            </ul>
+            <div class="more">加载中...</div>
+        </div>
+    </div>
+</div>
+
+<!-- 浮动框 -->
+<div class="fixed-bar">
+    <a href="javascript:void 0" class="item refresh">
+        <i class="icon-refresh"></i>
+        <span>刷新</span>
+    </a>
+    <a href="javascript:void 0" class="item jian" style="display: none">
+        <span class="iconfont iconicon_jiantou-shang"></span>
+    </a>
+</div>
+<script src="/static/js/format.js"></script>
+<script src="/static/js/cookie.js"></script>
+<script type="text/javascript" th:inline="javascript">
+
+
+    let hotCommentNews = [[${hotCommentNews}]];
+    let tagsId = null;
+
+    // function setSrc() {
+    //     let pic = [[${newsJson}]];
+    //     $('.main .list img').each(function (index, ele) {
+    //         for(let i = 0; i < pic.length; i++) {
+    //             if($(ele).data('id') == pic[i].id) {
+    //                 $(ele).closest('li').find('.time').text(timestampToTime2(pic[i].ctime));
+    //                 $(ele).attr('src', "/user/getPic?path=" + JSON.parse(pic[i].picUrl).realFileName);
+    //             }
+    //         }
+    //     })
+    // }
+    //
+    // function setHotCommentSrc() {
+    //     let pic = [[${newsJson}]];
+    //     $('.bar-con img').each(function (index, ele) {
+    //         for (let i = 0; i < pic.length; i++) {
+    //             if ($(ele).data('id') == pic[i].id) {
+    //                 $(ele).attr('src', "/user/getPic?path=" + JSON.parse(pic[i].picUrl).realFileName);
+    //             }
+    //         }
+    //     })
+    // }
+
+    $('.nav-search input').keypress((e) => {
+        if(e.keyCode === 13) {
+            toSearch();
+        }
+    });
+
+    function toSearch() {
+        let keyword = $('.nav-search input').val();
+        if(keyword !== '') {
+            window.location.href = '/user/toSearch?keyword=' + keyword;
+        }
+    }
+
+    $('.refresh').click(function () {
+        window.location.href = window.location.href;
+    });
+
+    let topAction = $('.jian')[0];
+    let timer = null;
+    let ismove = false;
+    topAction.onclick = function(){
+        clearInterval(timer);
+        timer = setInterval(function(){
+            ismove = false;
+            let istop = document.documentElement.scrollTop || document.body.scrollTop;
+            let speed = Math.ceil(istop / 7);//使其每次变化量减少
+            document.documentElement.scrollTop = istop - speed;
+            if(istop == 0){
+                clearInterval(timer);
+            }
+        },20)
+    };
+    window.onscroll = function(){//触发滚动条事件
+        let istop = document.documentElement.scrollTop || document.body.scrollTop;//body与视口滚动条长度可能不一致 由于body有8px的margin和padding
+        if(istop > 300){
+            topAction.style.display = "block";
+        }else{
+            topAction.style.display = "none";
+        }
+        if(ismove){
+            clearInterval(timer);
+        }
+        ismove = true;
+    };
+
+
+    // setInterval(function () {
+    //     let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    //     if (scrollTop >= $('.qq_navWrap').height()) {
+    //         $('.qq_navWrap').css('position', 'fixed')
+    //     } else {
+    //         $('.qq_navWrap').css('position', 'relative')
+    //     }
+    // }, 1000);
+
+</script>
+<script src="/static/js/tagsList.js"></script>
+<script src="/static/js/page.js"></script>
+
+</body>
+</html>

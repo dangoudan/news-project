@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/static/js/jquery.js}"></script>
+    <style>
+        #msgContent {
+            width: 600px;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+
+<table>
+    <tr>
+        <td>标题</td><td><input type="text" id="title" style="width: 600px;"></td>
+    </tr>
+    <tr>
+        <td>正文</td><td><textarea placeholder="请输入正文..." onautocomplete="content" id="msgContent"></textarea></td>
+    </tr>
+    <tr>
+        <td>置顶</td><td>
+        <input type="radio" class="radio" name="isTop" value="1">YES
+        <input type="radio" class="radio" name="isTop" value="0">NO
+    </td>
+    </tr>
+    <tr>
+        <td>标签</td>
+        <td>
+            <select multiple id="tags">
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td><button onclick="submit()">确认修改</button></td>
+    </tr>
+</table>
+
+
+<script>
+
+    let fullData = {};
+
+    function submit() {
+        let tags = document.getElementById('tags');
+        let radio = document.getElementsByClassName("radio");
+        let title = document.getElementById('title').value;
+        let msgContent = document.getElementById('msgContent').value;
+        //=======标签判断========
+        let options = tags.children;
+        let tagsId = [];
+        let tagNames1 = [];
+        let j = 0;
+        for(let i in options) {
+            if(options[i].selected) {
+                tagsId[j++] = options[i].value;
+                j--;
+                tagNames1[j++] = options[i].innerText;
+            }
+        }
+        let tagNames = fullData.tagList;
+        if(tagNames.length == tagNames1.length) {
+            let lock = false;
+            for (let i in tagNames) {
+                if (tagNames1[i] != tagNames[i]) {
+                    lock = true;
+                    break;
+                }
+            }
+            if(!lock) {
+                tagsId = null;
+            }
+        }
+        tags = JSON.stringify(tagsId);
+        //=======顶置判断========
+        let isTop = '';
+        for(let i = 0; i < radio.length; i++) {
+            if(radio[i].checked) {
+                isTop = radio[i].value;
+            }
+        }
+        if(isTop == fullData.news.isTop) {
+            isTop = null;
+        }
+        //=======正文判断========
+        if(msgContent == fullData.news.content) {
+            msgContent = null;
+        }
+        //=======标题判断========
+        if(fullData.news.title == title) {
+            title = null;
+        }
+        $.ajax({
+            url: "/admin/updateNews",
+            data: {
+                "title": title,
+                "msgContent": msgContent,
+                "tags": tags,
+                "isTop": isTop,
+                "newsId": fullData.news.id
+            },
+            type: 'get',
+            //ajax2.0可以不用设置请求头，但是jq帮我们自动设置了，这样的话需要我们自己取消掉
+            // contentType: 'application/x-www-form-urlencoded',
+            //取消帮我们格式化数据，是什么就是什么
+            // processData: false,
+            dataType: 'json',
+            success(data) {
+                alert(data.msg);
+            }
+        });
+        // let xhr = new XMLHttpRequest();
+        // xhr.open("post","/admin/updateNews");
+        // xhr.onreadystatechange = function(){
+        //     if(xhr.status == 200 && xhr.readyState == 4){
+        //         alert(xhr.responseText);
+        //     }
+        // };
+        // xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+        // xhr.send(form);
+    }
+
+    let xhrReq = new XMLHttpRequest();
+    xhrReq.open("get","/admin/allTags", false);
+    xhrReq.onreadystatechange = function(){
+        if(xhrReq.status == 200 && xhrReq.readyState == 4){
+            let result = JSON.parse(xhrReq.responseText);
+            let tags = document.getElementById("tags");
+            for(let i = 0; i < result.length; i++){
+                let option = document.createElement("option");
+                option.innerText = result[i].tag;
+                option.value = result[i].id;
+                tags.appendChild(option);
+            }
+        }
+    };
+    xhrReq.send();
+
+    let xhr1 = new XMLHttpRequest();
+    xhr1.open("get", "/admin/findOneNews?id=" + [[${id}]]);
+    xhr1.onreadystatechange = function () {
+        if (xhr1.readyState == 4 && xhr1.status == 200){
+            let result = JSON.parse(xhr1.responseText);
+            let data = JSON.parse(result.data);
+            fullData = data;
+            console.log(data);
+            let title = document.getElementById('title');
+            let msgContent = document.getElementById('msgContent');
+            let tags = document.getElementById('tags');
+            let radio = document.getElementsByClassName("radio");
+            title.value = data.news.title;
+            msgContent.value = data.news.content;
+            let tagNames = data.tagList;
+            let options = tags.children;
+            for(let i = 0; i < radio.length; i++) {
+                if(radio[i].value == data.news.isTop) {
+                    radio[i].setAttribute("checked", "checked")
+                }
+            }
+            for(let i = 0; i < tagNames.length; i++) {
+                for(let j = 0; j < options.length; j++) {
+                    if(options[j].innerText == tagNames[i]) {
+                        options[j].setAttribute("selected", "selected")
+                    }
+                }
+            }
+        }
+    };
+    xhr1.send();
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function submit() {
+            let tag = document.getElementById('tag').value;
+            let span = document.getElementsByTagName("span")[0];
+            if(tag == null || tag == '') {
+                span.innerHTML = 'tag不能为空'
+                return
+            }
+            let xhr = new XMLHttpRequest();
+            xhr.open("get","/admin/addTags?tag=" + tag);
+            xhr.onreadystatechange = function(){
+                if(xhr.status == 200 && xhr.readyState == 4){
+                    let result = JSON.parse(xhr.responseText);
+                    alert(result.msg);
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</head>
+<body>
+
+<h1>添加标签</h1>
+<table>
+    <tr>
+        <td>标签名</td><td><input type="text" id="tag"><span></span></td>
+    </tr>
+    <tr>
+        <td><button onclick="submit()">创建标签</button></td>
+    </tr>
+</table>
+
+</body>
+</html>

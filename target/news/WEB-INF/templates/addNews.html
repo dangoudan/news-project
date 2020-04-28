@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #msgContent {
+            width: 600px;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+
+<table>
+    <tr>
+        <td>标题</td><td><input type="text" id="title" style="width: 600px;"></td>
+    </tr>
+    <tr>
+        <td>正文</td><td><textarea placeholder="请输入正文..." onautocomplete="content" id="msgContent"></textarea></td>
+    </tr>
+    <tr>
+        <td>图片</td><td><input type="file" id="pic" multiple="multiple"></td>
+    </tr>
+    <tr>
+        <td>置顶</td><td>
+        <input type="radio" class="radio" name="isTop" value="1">YES
+        <input type="radio" class="radio" name="isTop" value="0" checked>NO
+    </td>
+    </tr>
+    <tr>
+        <td>标签</td>
+        <td>
+            <select multiple id="tags">
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td><button onclick="submit()">发布</button></td>
+    </tr>
+</table>
+
+<script>
+
+    function submit() {
+        let title = document.getElementById('title').value;
+        let msgContent = document.getElementById('msgContent').value;
+        let pics = document.getElementById('pic').files;
+        let tags = document.getElementById('tags');
+        let radio = document.getElementsByClassName("radio");
+        let options = tags.children;
+        let tagsId = [];
+        let j = 0;
+        for(let i in options) {
+            if(options[i].selected) {
+                tagsId[j++] = options[i].value;
+            }
+        }
+        tags = JSON.stringify(tagsId);
+        let isTop = '';
+        for(let i = 0; i < radio.length; i++) {
+            if(radio[i].checked) {
+                isTop = radio[i].value;
+            }
+        }
+        if(pics.length > 1){
+            alert("最多只能上传一张图片");
+            return;
+        }
+
+        let form = new FormData();
+        form.append("title",title);
+        form.append("msgContent",msgContent);
+        form.append("tags",tags);
+        form.append("isTop", isTop);
+        for(let i = 0; i < pics.length; i++){
+            form.append("pic",pics[i]);
+        }
+        let xhr = new XMLHttpRequest();
+        xhr.open("post","/admin/addNews");
+        // xhr.setRequestHeader("Content-type","multipart/form-data");//ajax默认发送文件
+        // xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");//form表单默认不能发送文件
+        xhr.onreadystatechange = function(){
+            if(xhr.status == 200 && xhr.readyState == 4){
+                alert(xhr.responseText);
+            }
+        };
+        xhr.send(form);
+    }
+
+    let xhrReq = new XMLHttpRequest();
+    xhrReq.open("get","/admin/allTags");
+    xhrReq.onreadystatechange = function(){
+        if(xhrReq.status == 200 && xhrReq.readyState == 4){
+            let result = JSON.parse(xhrReq.responseText);
+            let tags = document.getElementById("tags");
+            for(let i = 0; i < result.length; i++){
+                let option = document.createElement("option");
+                option.innerText = result[i].tag;
+                option.value = result[i].id;
+                tags.appendChild(option);
+            }
+        }
+    };
+    xhrReq.send();
+</script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .hidden {
+            color: darkred;
+        }
+    </style>
+</head>
+<body>
+
+<h1>用户注册页面</h1>
+<span>用户名:</span><input type="text" id="account"/> <span class="hidden"></span> <br/>
+<span>密码：</span><input type="password" id="password"/> <span class="hidden"></span> <br/>
+<span>重复密码：</span><input type="password" id="repeat"/> <span class="hidden"></span> <br/>
+<span>邮箱：</span><input type="text" id="email"/> <span class="hidden"></span> <br/>
+<button onclick="register()">注册</button>
+
+
+<script>
+    let span1 = document.getElementsByClassName('hidden')[0];
+    let span2 = document.getElementsByClassName('hidden')[1];
+    let span3 = document.getElementsByClassName('hidden')[2];
+    let span4 = document.getElementsByClassName('hidden')[3];
+    let account = document.getElementById("account");
+    let password = document.getElementById("password");
+    let email = document.getElementById("email");
+    account.onblur = function() {
+        let account = this.value;
+        if(account == ''){
+            span1.innerHTML = '请输入用户名'
+            return
+        }else if(account.length < 6 || account.length > 16) {
+            span1.innerHTML = '用户名长度为6 ~ 16'
+            return
+        }else {
+            span1.innerHTML = ''
+        }
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("get", "/user/check?account=" + account);
+        xhr.onreadystatechange = function () {
+            if(xhr.readyState == 4 && xhr.status == 200){
+                let result = JSON.parse(xhr.responseText);
+                if(result.status == "FAIL"){
+                    span1.innerHTML = result.msg;
+                }
+            }
+        };
+        xhr.send();
+    };
+    password.onblur = function() {
+        let password = this.value;
+        if(password == ''){
+            span2.innerHTML = '请输入密码'
+        }else if(password.length < 6 || password.length > 16) {
+            span2.innerHTML = '密码长度为6 ~ 16'
+        }else {
+            span2.innerHTML = ''
+        }
+    };
+    document.getElementById("repeat").onblur = function() {
+        let repeat = this.value;
+        if(password.value != repeat){
+            span3.innerHTML = '两次密码输入不一致';
+        }else {
+            span3.innerHTML = ''
+        }
+    };
+    email.onblur = function () {
+        let email = this.value;
+        if(email == null || email == '') {
+            span4.innerHTML = '必须要有Email';
+        }else {
+            span4.innerHTML = '';
+        }
+    };
+
+    function register() {
+        if(span1.value == null && span2.value == null && span3.value == null && span4.value == null) {
+            let xhr = new XMLHttpRequest();
+            xhr.open("get", "/user/register?account=" + account.value + "&password=" + password.value + "&email=" + email.value);
+            xhr.onreadystatechange = function () {
+                if(xhr.readyState == 4 && xhr.status == 200){
+                    let result = JSON.parse(xhr.responseText);
+                    if(result.status == "OK"){//表示注册成功，跳转页面
+                        alert("注册成功，点击确定跳转到登录页面");
+                        location.href = "/user/toLogin";
+                    }
+                }
+            };
+            xhr.send();
+        }
+    }
+</script>
+</body>
+</html>

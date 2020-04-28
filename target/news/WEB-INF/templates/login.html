@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.css}">
+    <script>
+        function login() {
+            let account = document.getElementById("account").value;
+            let password = document.getElementById("password").value;
+            let xhr = new XMLHttpRequest();
+            xhr.open("get", "/admin/login.api?account=" + account + "&password=" + password);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState ==4 && xhr.status ==200){
+                    let result = JSON.parse(xhr.responseText);
+                    if (result.status == "OK") {//登录成功，跳转到主页面
+                        alert("登录成功");
+                        location.href = "/admin/index.html";
+                    } else {//登录失败，告知用户失败的原因
+                        alert(result.msg);
+                    }
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <h2>管理员登录窗口</h2>
+    <br>
+
+    <form th:action="@{/admin/login}" method="post" class="form-horizontal">
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">username：</label>
+            <div class="col-sm-5">
+                <input type="text" id="username" name="account" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">password：</label>
+            <div class="col-sm-5">
+                <input type="password" id="password" name="password" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" value="提交" class="btn btn-info">
+            </div>
+        </div>
+    </form>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button class="button" onclick="register()">注册</button>
+        </div>
+    </div>
+
+    <a href="/user/toLogin" style="text-decoration: none; color: skyblue;">用户登录></a>
+
+</div>
+
+<script>
+    function register() {
+        location.href = "/admin/toRegister";
+    }
+</script>
+
+
+</body>
+</html>

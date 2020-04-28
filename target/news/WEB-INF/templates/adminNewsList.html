@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/static/css/reset.css}">
+    <style>
+        table {
+            border: 1px solid;
+        }
+        th {
+            border: 1px solid;
+        }
+        td {
+            border: 1px solid;
+        }
+    </style>
+</head>
+<body>
+<h1>新闻列表</h1>
+<table id="tagsList">
+    <tr>
+        <th>标题</th><th>作者</th><th>简介</th><th>标签</th><th>创建时间</th><th>操作</th>
+    </tr>
+</table>
+
+<script>
+
+    function del(id) {
+        let xhr = new XMLHttpRequest();
+        xhr.open("get", "/admin/deleteNews?id=" + id);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200){
+                location.href = "/admin/toAdminNewsList";
+            }
+        };
+        xhr.send();
+    }
+
+    let tagsTable = document.getElementById("tagsList");
+    let xhr = new XMLHttpRequest();
+    xhr.open("get", "/admin/allNews");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200){
+            let tagsList = JSON.parse(xhr.responseText).data;
+            let newsList = JSON.parse(tagsList).newsList;
+            let tagMap = JSON.parse(tagsList).map;
+            for (let i = 0 ; i < newsList.length ; i ++) {
+                let tr = document.createElement("tr");
+                let td1 = document.createElement("td");
+                let td2 = document.createElement("td");
+                let td3 = document.createElement("td");
+                let td4 = document.createElement("td");
+                let td5 = document.createElement("td");
+                let td6 = document.createElement("td");
+                let td7 = document.createElement("td");
+                td1.innerText = newsList[i].title;
+                td2.innerText = newsList[i].author;
+                td3.innerText = newsList[i].content.substr(0, 10) + "...";
+                td4.innerText = tagMap["result" + i]
+                td5.innerText = newsList[i].ctime;
+                td6.innerHTML = "<a href='/admin/toUpdateNews?id=" + newsList[i].id + "'>编辑</a>"
+                td7.innerHTML = "<a href='#' onclick='del(" + newsList[i].id + ")'>删除</a>"
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tr.appendChild(td4);
+                tr.appendChild(td5);
+                tr.appendChild(td6);
+                tr.appendChild(td7);
+                tagsTable.appendChild(tr);
+            }
+        }
+    };
+    xhr.send();
+
+</script>
+
+</body>
+</html>

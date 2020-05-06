@@ -32,7 +32,7 @@ public class LoginController {
     }
 
     @RequestMapping("/login")
-    public void handleLogin(String account, String password, HttpServletResponse response) throws IOException {
+    public void handleLogin(String account, String password, boolean auto, HttpServletResponse response) throws IOException {
         Admin admin = adminService.getAdminByAccount(account);
         if(admin == null){
             ResponseUtil.writeJSON(response,ResponseUtil.ResponseEnum.FAIL,"找不到这个用户",null);
@@ -44,6 +44,9 @@ public class LoginController {
 //            cookie.setMaxAge();
 //            cookie.setDomain("baidu.com");//可以种在一级域名下
             cookie.setPath("/admin");
+            if(auto) {
+                cookie.setMaxAge(60 * 60 * 24);
+            }
             response.addCookie(cookie);
             ResponseUtil.writeJSON(response,ResponseUtil.ResponseEnum.OK,"登录成功",null);
             return;

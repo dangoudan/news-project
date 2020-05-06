@@ -52,7 +52,7 @@ function delCookie(name){
             type: 'get',
             datatype: 'json',
             success(data) {
-                console.log(data)
+                console.log(data);
                 $('.login-wrap').eq(0).find('.login-area')
                     .find('img').attr('src', "/user/getPic?path=" + JSON.parse(data.picUrl).realFileName)
                     .end().find('.nick').text('你好' + data.account)

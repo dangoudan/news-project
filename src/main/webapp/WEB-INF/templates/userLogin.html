@@ -43,7 +43,7 @@
                 </div>
                 <div class="form-item tip clearfix">
                     <label class="left">
-                        <input type="checkbox">
+                        <input type="checkbox" class="auto">
                         下次自动登录
                     </label>
                     <span class="right">
@@ -130,6 +130,8 @@
             $form.find(".btn").attr('disabled', true)
         }
     }, 1000);
+
+
     function login() {
         let val = $(".input-val").val().toLowerCase();
         let num = show_num.join("");
@@ -147,15 +149,15 @@
         }
         let account = $input.val();
         let password = $password.val();
+        let auto = $(".auto").is(":checked");
         let xhr = new XMLHttpRequest();
-        xhr.open("get", "/user/login?account=" + account + "&password=" + password);
+        xhr.open("get", "/user/login?account=" + account + "&password=" + password + "&auto=" + auto);
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 let result = JSON.parse(xhr.responseText);
                 if (result.status == "OK") {//登录成功，跳转到主页面
                     alert("登录成功");
                     window.history.back();
-                    // location.href = '/user/toDetail?id=16';
                 } else {//登录失败，告知用户失败的原因
                     alert(result.msg);
                 }

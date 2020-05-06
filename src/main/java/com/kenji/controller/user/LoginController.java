@@ -37,7 +37,7 @@ public class LoginController {
     }
 
     @RequestMapping("/login")
-    public void login(User user, HttpServletResponse response) throws IOException {
+    public void login(User user, boolean auto, HttpServletResponse response) throws IOException {
         System.out.println(user);
         boolean result = userService.login(user);
         if(!result){
@@ -47,6 +47,9 @@ public class LoginController {
         User realUser = userService.getUserByAccount(user.getAccount());
         Cookie cookie = new Cookie("userId","" + realUser.getId());
         cookie.setPath("/user");
+        if(auto) {
+            cookie.setMaxAge(60 * 60 * 24);
+        }
         response.addCookie(cookie);
         ResponseUtil.writeJSON(response,ResponseUtil.ResponseEnum.OK,"登录成功",null);
     }

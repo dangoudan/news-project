@@ -389,6 +389,7 @@ b, strong {
     height: 100%;
     line-height: 34px;
     font-size: 14px;
+    cursor: default;
 }
 a.header-number:hover {
     color: #328bd1;

@@ -2,6 +2,7 @@ package com.kenji.controller.admin;
 
 import com.kenji.domain.Admin;
 import com.kenji.service.AdminService;
+import com.kenji.util.CodeUtil;
 import com.kenji.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -58,12 +59,19 @@ public class LoginController {
     }
 
     @RequestMapping("/register")
-    public void register(String account, String password, HttpServletResponse response) throws IOException {
-        Admin admin = new Admin();
-        admin.setAccount(account);
-        admin.setPassword(password);
-        adminService.create(admin);
-        ResponseUtil.writeJSON(response,ResponseUtil.ResponseEnum.OK,"注册成功",null);
+    public void register(String account, String password, String code, HttpServletResponse response) throws IOException {
+        String realCode = CodeUtil.getCode();
+        if(realCode != null && realCode.equals(code)) {
+            Admin admin = new Admin();
+            admin.setAccount(account);
+            admin.setPassword(password);
+            adminService.create(admin);
+            ResponseUtil.writeJSON(response,ResponseUtil.ResponseEnum.OK,"注册成功",null);
+        }else {
+            ResponseUtil.writeJSON(response,ResponseUtil.ResponseEnum.FAIL,"验证码有误",null);
+        }
+
+
     }
 
     @RequestMapping("/check")
@@ -75,5 +83,7 @@ public class LoginController {
             ResponseUtil.writeJSON(response,ResponseUtil.ResponseEnum.OK,"用户名可用",null);
         }
     }
+
+
 
 }

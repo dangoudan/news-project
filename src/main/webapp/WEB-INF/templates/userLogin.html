@@ -26,7 +26,7 @@
             <!-- 密码登录 -->
             <div>
                 <div class="form-item tip space clearfix">
-<!--                    <a href="" class="right">找回密码</a>-->
+                    <a href="/user/toUpdatePwd" class="right">修改密码</a>
                 </div>
                 <div class="form-item">
                     <input type="text" placeholder="用户名" id="account">
@@ -89,9 +89,8 @@
                         <div class="box-images-bg"></div>
                         <span class="box-images-delete">
                                 <i class="icon-picture_delete"></i>
-                            </span>
+                        </span>
                     </div>
-                    <span class="msg msg-file"></span>
                 </div>
                 <div class="form-item">
                     <button class="btn" onclick="register()">注册</button>
@@ -157,7 +156,7 @@
                 let result = JSON.parse(xhr.responseText);
                 if (result.status == "OK") {//登录成功，跳转到主页面
                     alert("登录成功");
-                    window.history.back();
+                    location.href = '/user';
                 } else {//登录失败，告知用户失败的原因
                     alert(result.msg);
                 }
@@ -172,7 +171,6 @@
     let span2 = document.getElementsByClassName('msg')[1];
     let span3 = document.getElementsByClassName('msg')[2];
     let span4 = document.getElementsByClassName('msg')[3];
-    let span5 = document.getElementsByClassName('msg')[4];
     let account = document.getElementById("account1");
     let password = document.getElementById("password1");
     let email = document.getElementById("email");
@@ -223,7 +221,7 @@
     email.onblur = function () {
         let email = this.value;
         if (email == null || email == '') {
-            span4.innerHTML = '必须要有Email';
+            span4.innerHTML = '请输入邮箱地址';
         } else {
             span4.innerHTML = '';
         }
@@ -231,13 +229,12 @@
 
     function register() {
         let pics = fileInput.files;
-        if(pics.length > 1) {
-            span5.innerHTML = '只能上传一张图片';
+        if(pics.length > 1 || pics.length === 0) {
+            alert('需要上传一张图片');
             return;
-        } else {
-            span5.innerHTML = '';
         }
-        if (span1.value == null && span2.value == null && span3.value == null && span4.value == null && span5.value == null) {
+        if ((span1.innerText === '' && span2.innerText === '' && span3.innerText === '' && span4.innerText === '')
+        && (account.value !== '' && password.value !== '' && email.value !== '')) {
             let form = new FormData();
             form.append("account", account.value);
             form.append("password", password.value);
@@ -257,6 +254,8 @@
                 }
             };
             xhr.send(form);
+        }else {
+            alert("请正确按照要求填写注册信息")
         }
     }
 

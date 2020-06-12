@@ -1,4 +1,5 @@
 F:\IdeaProjects\news\src\main\java\com\kenji\dao\TagsDao.java
+F:\IdeaProjects\news\src\main\java\com\kenji\controller\admin\UserListController.java
 F:\IdeaProjects\news\src\main\java\com\kenji\domain\Admin.java
 F:\IdeaProjects\news\src\main\java\com\kenji\domain\Comment.java
 F:\IdeaProjects\news\src\main\java\com\kenji\domain\Reply.java
@@ -17,11 +18,9 @@ F:\IdeaProjects\news\src\main\java\com\kenji\service\AdminService.java
 F:\IdeaProjects\news\src\main\java\com\kenji\domain\Tags.java
 F:\IdeaProjects\news\src\main\java\com\kenji\domain\Thumb.java
 F:\IdeaProjects\news\src\main\java\com\kenji\dao\CommentDao.java
-F:\IdeaProjects\news\src\main\java\com\kenji\controller\TestController.java
 F:\IdeaProjects\news\src\main\java\com\kenji\service\ThumbService.java
 F:\IdeaProjects\news\src\main\java\com\kenji\service\UserService.java
 F:\IdeaProjects\news\src\main\java\com\kenji\service\impl\NewsTagsMappingServiceImpl.java
-F:\IdeaProjects\news\src\main\java\com\kenji\util\SQLUtil.java
 F:\IdeaProjects\news\src\main\java\com\kenji\controller\admin\TagsController.java
 F:\IdeaProjects\news\src\main\java\com\kenji\controller\user\LoginController.java
 F:\IdeaProjects\news\src\main\java\com\kenji\domain\ViewRecord.java
@@ -53,6 +52,7 @@ F:\IdeaProjects\news\src\main\java\com\kenji\controller\user\CommentController.j
 F:\IdeaProjects\news\src\main\java\com\kenji\controller\user\FileController.java
 F:\IdeaProjects\news\src\main\java\com\kenji\dao\ThumbDao.java
 F:\IdeaProjects\news\src\main\java\com\kenji\domain\News.java
+F:\IdeaProjects\news\src\main\java\com\kenji\util\CodeUtil.java
 F:\IdeaProjects\news\src\main\java\com\kenji\service\impl\AdminServiceImpl.java
 F:\IdeaProjects\news\src\main\java\com\kenji\controller\admin\LoginController.java
 F:\IdeaProjects\news\src\main\java\com\kenji\dao\AdminDao.java

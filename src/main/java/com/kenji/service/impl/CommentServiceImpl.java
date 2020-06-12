@@ -40,6 +40,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public String getContentById(int id) {
+        return dao.getContentById(id);
+    }
+
+    @Override
     public void addCommentThumbs(int id) {
         dao.addCommentThumbs(id);
     }
@@ -67,6 +72,11 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<Comment> getLatestComment(int userId) {
         return dao.getLatestComment(userId);
+    }
+
+    @Override
+    public List<Integer> getCommentId(int userId) {
+        return dao.getCommentId(userId);
     }
 
     @Override

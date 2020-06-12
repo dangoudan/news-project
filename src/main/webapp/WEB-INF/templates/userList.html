@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/static/css/userList.css}">
+    <script src="/static/js/jquery.js"></script>
+</head>
+<body>
+
+<div class="wrap">
+    <div class="list">
+        <div class="clearfix">
+            <div class="left pageTotal">共有<em></em>位已注册的用户</div>
+        </div>
+        <div class="top">
+            <div class="username left">
+                <span>用户名</span>
+            </div>
+            <div class="email left">
+                <span>邮箱</span>
+            </div>
+            <div class="status left">
+                <span>状态</span>
+            </div>
+            <div class="time left">
+                <span>创建时间</span>
+            </div>
+            <div class="operate right">
+                <span>操作</span>
+            </div>
+        </div>
+        <ul class="item-list">
+<!--            <li class="item clearfix">-->
+<!--                <div class="imgWrap left">-->
+<!--                    <img src="/static/img/pic.jpg" alt="" class="pic-img">-->
+<!--                </div>-->
+<!--                <div class="username left">-->
+<!--                    <span>kenji</span>-->
+<!--                </div>-->
+<!--                <div class="email left">-->
+<!--                    <span>1293687933@qq.com</span>-->
+<!--                </div>-->
+<!--                <div class="status left">-->
+<!--                    <span>良好</span>-->
+<!--                </div>-->
+<!--                <div class="time left">-->
+<!--                    <span>2020.04.09 12:34:23</span>-->
+<!--                </div>-->
+<!--                <div class="operate right">-->
+<!--                    <button class="update-btn">封禁</button>-->
+<!--                    <button class="del">删除</button>-->
+<!--                </div>-->
+<!--            </li>-->
+<!--            <li class="item clearfix">-->
+<!--                <div class="imgWrap left">-->
+<!--                    <img src="/static/img/pic.jpg" alt="" class="pic-img">-->
+<!--                </div>-->
+<!--                <div class="username left">-->
+<!--                    <span>kenji</span>-->
+<!--                </div>-->
+<!--                <div class="email left">-->
+<!--                    <span>1293687933@qq.com</span>-->
+<!--                </div>-->
+<!--                <div class="status left">-->
+<!--                    <span>良好</span>-->
+<!--                </div>-->
+<!--                <div class="time left">-->
+<!--                    <span>2020.04.09 12:34:23</span>-->
+<!--                </div>-->
+<!--                <div class="operate right">-->
+<!--                    <button class="update-btn">封禁</button>-->
+<!--                    <button class="del">删除</button>-->
+<!--                </div>-->
+<!--            </li>-->
+        </ul>
+        <div class="bottom-page clearfix">
+            <div class="first-page">顶页</div>
+            <div class="prev">上一页</div>
+            <div class="next">下一页</div>
+            <div class="last-page">末页</div>
+            <div class="pageNum">第<em></em>页</div>
+            <div class="page-jump">
+                共<span></span>页，跳至<input type="text">页
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="/static/js/format.js"></script>
+<script src="/static/js/jumpMsg.js"></script>
+<script>
+
+    let pageNum = 1;
+    let pageSize = 10;
+    let pageTotal = 0;
+    let total = 0;
+
+    function getAllUser(offset, size) {
+        $.ajax({
+            url: '/admin/getUserList',
+            data: {
+                offset,
+                size
+            },
+            type: 'get',
+            dataType: 'json'
+        }).then(data => {
+            appendEle(data);
+            banned();
+            del();
+        })
+    }
+
+    function appendEle(data) {
+        let userList = data;
+        $('.item-list').find('li').remove();
+        $('.pageNum em').text(pageNum);
+        for (let i = 0; i < userList.length; i++) {
+            $('.item-list').append($('<li class="item clearfix">' +
+                '<div class="imgWrap left">' +
+                '<img src="/user/getPic?path=' + JSON.parse(userList[i].picUrl).realFileName + '" alt="" class="pic-img"></div>' +
+                '<div class="username left"><span>' + userList[i].account + '</span></div>' +
+                '<div class="email left"><span>' + userList[i].email + '</span></div>' +
+                '<div class="status left ' + (userList[i].status === 0 ? 'col-green' : 'col-red') + '"><span>' + (userList[i].status === 0 ? '良好' : '被封禁') + '</span></div>' +
+                '<div class="time left"><span>' + timestampToTime(userList[i].ctime) + '</span></div>' +
+                '<div class="operate right">' +
+                '<button class="update-btn" data-status="'+ userList[i].status +'">' + (userList[i].status === 0 ? '封禁' : '解封') + '</button>' +
+                '<button class="del" data-id="' + userList[i].id + '">删除</button>' +
+                '</div></li>'))
+        }
+    }
+
+    function banned() {
+        $('.update-btn').click(function () {
+            let status = $(this).data("status");
+            if (status === 0) {
+                if (!confirm('确认封禁此用户？')) {
+                    return;
+                }
+                let id = $(this).next().data('id');
+                $.ajax({
+                    url: '/admin/bannedUser',
+                    data: {
+                        id,
+                        status
+                    },
+                    type: 'get',
+                }).then(data => {
+                    if (data === "OK") {
+                        $(this).data("status", 1);
+                        let $statusEle = $(this).closest('.item').find('.status');
+                        $statusEle.removeClass('col-green').addClass('col-red');
+                        $statusEle.text('被封禁');
+                        $(this).text('解封');
+                        jumpBlock("封禁成功");
+                    }
+                })
+            }else {
+                if (!confirm('确认解封此用户？')) {
+                    return;
+                }
+                let id = $(this).next().data('id');
+                $.ajax({
+                    url: '/admin/bannedUser',
+                    data: {
+                        id,
+                        status
+                    },
+                    type: 'get',
+                }).then(data => {
+                    if (data === "OK") {
+                        $(this).data("status", 0);
+                        let $statusEle = $(this).closest('.item').find('.status');
+                        $statusEle.removeClass('col-red').addClass('col-green');
+                        $statusEle.text('良好');
+                        $(this).text('封禁');
+                        jumpBlock("解封成功");
+                    }
+                })
+            }
+        })
+    }
+
+    function del() {
+        $('.del').click(function () {
+            if(!confirm('确认删除此用户？')){
+                return;
+            }
+            let id = $(this).data('id');
+            $.ajax({
+                url: '/admin/delUser',
+                data: {
+                    id
+                },
+                type: 'get',
+            }).then(data => {
+                if(data === "OK") {
+                    jumpBlock("删除成功");
+                    $(this).closest('.item').remove();
+                }
+            })
+        })
+    }
+
+    function getNewsCount() {
+        $.ajax({
+            url: '/admin/getAllUserCount',
+            type: 'get',
+            dataType: 'json',
+            success(data) {
+                total = data;
+                $('.pageTotal em').text(total);
+                pageNum = 1;
+                pageTotal = Math.ceil(total / pageSize);
+                $('.page-jump').find('span').text(pageTotal);
+                getAllUser((pageNum - 1) * pageSize, pageSize);
+                delLastPage();
+                if(pageTotal === 1) {
+                    setLastPage();
+                }
+                setFirstPage();
+            }
+        });
+    }
+    getNewsCount();
+
+
+    function setFirstPage() {
+        $('.first-page').addClass('disabled');
+        $('.prev').addClass('disabled');
+    }
+
+    function delFirstPage() {
+        $('.first-page').removeClass('disabled');
+        $('.prev').removeClass('disabled');
+    }
+
+    function setLastPage() {
+        $('.last-page').addClass('disabled');
+        $('.next').addClass('disabled');
+    }
+
+    function delLastPage() {
+        $('.last-page').removeClass('disabled');
+        $('.next').removeClass('disabled');
+    }
+
+    $('.first-page').click(function () {
+        pageNum = 1;
+        getAllUser((pageNum - 1) * pageSize, pageSize);
+        setFirstPage();
+        delLastPage();
+    });
+
+    $('.last-page').click(function () {
+        pageNum = pageTotal;
+        getAllUser((pageNum - 1) * pageSize, pageSize);
+        setLastPage();
+        delFirstPage();
+    });
+
+    $('.next').click(function () {
+        next();
+    });
+
+    $('.prev').click(function () {
+        prev();
+    });
+
+    $('.page-jump input').keypress((e) => {
+        if (e.keyCode === 13) {
+            jumpPage();
+        }
+    });
+
+    function jumpPage() {
+        let val = +$('.page-jump input').val();
+        if (val > pageTotal) {
+            pageNum = pageTotal;
+        } else if (val <= 0) {
+            pageNum = 1;
+        } else if (isNaN(val)) {
+            pageNum = 1;
+        } else {
+            pageNum = val;
+        }
+        getAllUser((pageNum - 1) * pageSize, pageSize);
+        if(pageNum === 1 && pageTotal !== 1) {
+            setFirstPage();
+            delLastPage();
+        }else if(pageNum === pageTotal && pageTotal !== 1) {
+            setLastPage();
+            delFirstPage();
+        }
+    }
+
+    function prev() {
+        if (pageNum === pageTotal) {
+            delLastPage();
+        }
+        pageNum--;
+        getAllUser((pageNum - 1) * pageSize, pageSize);
+        if (pageNum <= 1) {
+            setFirstPage();
+        }
+    }
+
+    function next() {
+        if (pageNum === 1) {
+            delFirstPage();
+        }
+        pageNum++;
+        getAllUser((pageNum - 1) * pageSize, pageSize);
+        if (pageNum * pageSize >= total) {
+            setLastPage();
+        }
+    }
+
+</script>
+
+</html>

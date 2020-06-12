@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/static/css/loginframe.css}">
+    <script th:src="@{/static/js/jquery.js}"></script>
+
+</head>
+<body>
+<h1>用户修改密码</h1>
+
+<div class="container">
+    <div class="login">
+        <!-- 切换菜单 -->
+        <div class="switch-menu clearfix"></div>
+
+        <form class="form" onsubmit="return false;">
+            <!-- 密码登录 -->
+            <div>
+                <div class="form-item tip space clearfix">
+                    <a href="javascript:void 0" onclick="back()" class="right" style="margin-right: 4px">回退</a>
+                </div>
+                <div class="form-item">
+                    <input type="text" placeholder="请输入用户名" id="account">
+                </div>
+                <div class="form-item">
+                    <input type="password" placeholder="请输入原密码" id="password">
+                </div>
+                <div class="form-item">
+                    <input type="password" placeholder="请输入新密码" class="newPwd">
+                </div>
+                <div class="form-item">
+                    <input type="password" placeholder="确认新密码" class="newPwd">
+                </div>
+                <div class="form-item">
+                    <button disabled class="btn" onclick="updatePwd()">修改密码</button>
+                </div>
+                <div class="form-item tip clearfix"></div>
+            </div>
+        </form>
+        <div class="bottom"></div>
+    </div>
+</div>
+<script>
+    let $form = $('.form').find('div').eq(0);
+
+    let $input = $form.find('#account');
+    let $password = $form.find('#password');
+    let $newPassword = $form.find(".newPwd").eq(0);
+    let $repeat = $form.find(".newPwd").eq(1);
+    setInterval(function() {
+        if($input.val() != '' && $password.val() != '' && $newPassword.val() != '' && $repeat.val() != '') {
+            $form.find(".btn").removeAttr('disabled')
+        }else {
+            $form.find(".btn").attr('disabled', true)
+        }
+    }, 1000);
+
+
+    function updatePwd() {
+        if($newPassword.val() !== $repeat.val()) {
+            alert("两次密码输入不一致");
+            $newPassword.val('');
+            $repeat.val('');
+            return;
+        }
+        $.ajax({
+            url: '/user/updatePwd',
+            type: 'get',
+            data: {
+                "account": $input.val(),
+                "password": $newPassword.val(),
+                "oldPassword": $password.val()
+            },
+            success(data) {
+                if(data === "OK") {
+                    alert("修改成功")
+                }else{
+                    alert("用户名或密码输入有误")
+                }
+                window.location.href = "/user/toLogin"
+            }
+        })
+    }
+
+    function back() {
+        window.history.back();
+    }
+
+
+</script>
+</body>
+</html>

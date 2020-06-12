@@ -28,7 +28,6 @@ $.ajax({
     type: 'get',
     datatype: 'json',
     success(data) {
-        console.log(data)
         $('.loginWrap')
             .find('.Face').attr('src', "/user/getPic?path=" + JSON.parse(data.picUrl).realFileName)
             .end().find('.big-face').attr('src', "/user/getPic?path=" + JSON.parse(data.picUrl).realFileName)
@@ -37,6 +36,6 @@ $.ajax({
         $('.layout')
             .find('.pic img').attr('src', "/user/getPic?path=" + JSON.parse(data.picUrl).realFileName)
             .end().find('.userMod .txt').html(data.account + '<span></span>');
-        $('.iSetup').find('span').eq(0).text(data.account).end().eq(1).text(data.email)
+        $('.iSetup .txt').find('input').eq(0).val(data.account).end().eq(1).val(data.email)
     }
-})
+});

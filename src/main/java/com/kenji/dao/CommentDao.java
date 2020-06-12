@@ -24,6 +24,9 @@ public interface CommentDao {
     @Select("select * from comment where news_id = #{newsId} order by ctime desc, id asc limit #{offset}, #{size}")
     List<Comment> getCommentPageByCtime(@Param("newsId") int newsId, @Param("offset") int offset, @Param("size") int size);
 
+    @Select("select content from comment where id = #{id}")
+    String getContentById(int id);
+
     @Select("select count(1) from comment where news_id = #{newsId}")
     int getCommentCountByNewsId(int newsId);
 
@@ -47,4 +50,7 @@ public interface CommentDao {
 
     @Update("update comment set thumbs = thumbs - 1 where id = #{id}")
     void delCommentThumbs(int id);
+
+    @Select("select id from comment where user_id = #{userId}")
+    List<Integer> getCommentId(int userId);
 }

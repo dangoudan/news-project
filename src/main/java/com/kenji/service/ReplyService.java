@@ -16,6 +16,8 @@ public interface ReplyService {
 
     List<Reply> getLatestReply(String userName);
 
+    List<Reply> getLatestCommentReply(String userName, List<Integer> commentId);
+
     int getReplyCount(int commentId);
 
     int getUserReplyCount(String userName);
@@ -29,4 +31,8 @@ public interface ReplyService {
     void addReplyThumbs(int id);
 
     void delReplyThumbs(int id);
+
+    void updateUserName(String userName, String oldUserName);
+
+    void updateRepliedName(String repliedName, String oldRepliedName);
 }

@@ -86,6 +86,10 @@
                     <span class="msg"></span>
                 </div>
                 <div class="form-item">
+                    <input type="password" placeholder="管理员验证码" id="code">
+                    <span class="msg"></span>
+                </div>
+                <div class="form-item">
                     <button class="btn" onclick="register()">注册</button>
                 </div>
             </div>
@@ -103,7 +107,7 @@
 <script>
     let $form = $('.form').find('div').eq(0);
     $('.switch-menu').on('click', function (e) {
-        $(this).find('.selected').removeClass('selected')
+        $(this).find('.selected').removeClass('selected');
         $(e.target).addClass('selected');
         if($(e.target).text().trim() == '密码登录' && $form.hasClass('hidden')) {
             $form.removeClass('hidden');
@@ -160,8 +164,10 @@
     let span1 = document.getElementsByClassName('msg')[0];
     let span2 = document.getElementsByClassName('msg')[1];
     let span3 = document.getElementsByClassName('msg')[2];
+    let span4 = document.getElementsByClassName('msg')[3];
     let account = document.getElementById("account1");
     let password = document.getElementById("password1");
+    let code = document.getElementById("code");
     account.onblur = function() {
         let account = this.value;
         if(account == ''){
@@ -205,20 +211,34 @@
         }
     };
 
+    code.onblur = function() {
+        let code = this.value;
+        if(code === ''){
+            span4.innerHTML = '验证码为空';
+        }else {
+            span4.innerHTML = ''
+        }
+    };
+
     function register() {
-        if(span1.value == null && span2.value == null && span3.value == null) {
+        if((span1.innerText === '' && span2.innerText === '' && span3.innerText === '' && span4.innerText === '')
+        && (account.value !== '' && password.value !== '' && code.value !== '')) {
             let xhr = new XMLHttpRequest();
-            xhr.open("get", "/admin/register?account=" + account.value + "&password=" + password.value);
+            xhr.open("get", "/admin/register?account=" + account.value + "&password=" + password.value + "&code=" + code.value);
             xhr.onreadystatechange = function () {
                 if(xhr.readyState == 4 && xhr.status == 200){
                     let result = JSON.parse(xhr.responseText);
                     if(result.status == "OK"){//表示注册成功，跳转页面
                         alert("注册成功，点击确定跳转到登录页面");
-                        location.href = "/admin/toLogin";
+                    }else {
+                        alert(result.msg);
                     }
+                    location.href = "/admin/toLogin";
                 }
             };
             xhr.send();
+        }else {
+            alert("请正确按照要求填写注册信息")
         }
     }
 

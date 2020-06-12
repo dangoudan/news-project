@@ -39,11 +39,20 @@ header{
     width: 1000px;
     position: relative;
 }
+
+.nav_logo {
+    position: relative;
+    float: left;
+}
+.nav_logo img {
+    height: 81px;
+}
+
 h1{
     line-height: 80px;
     font-size: 20px;
     position: absolute;
-    right: 0;
+    right: 180px;
     font-weight: bold;
 }
 .admin {
@@ -54,7 +63,7 @@ h1{
 }
 .admin .name {
     padding-left: 15px;
-    color: aqua;
+    color: deepskyblue;
     font-weight: bold;
 }
 .qq_content {

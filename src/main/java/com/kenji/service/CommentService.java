@@ -16,6 +16,8 @@ public interface CommentService {
 
     List<Comment> getCommentPageByCtime(int newsId, int offset, int size);
 
+    String getContentById(int id);
+
     void addCommentThumbs(int id);
 
     void delCommentThumbs(int id);
@@ -27,6 +29,8 @@ public interface CommentService {
     String getCommentContentById(int id);
 
     List<Comment> getLatestComment(int userId);
+
+    List<Integer> getCommentId(int userId);
 
     int getNewsIdByCommentId(int id);
 

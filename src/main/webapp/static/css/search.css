@@ -277,6 +277,7 @@ em {
     text-align: center;
     color: #fff;
     border-radius: 0 4px 4px 0;
+    cursor: pointer;
 }
 .tabBar {
     font-size: 18px;

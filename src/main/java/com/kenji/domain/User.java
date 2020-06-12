@@ -14,5 +14,7 @@ public class User {
     private String password;
     private String email;
     private String picUrl;
+    private int status;
+    private int ctime;
 
 }

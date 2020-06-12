@@ -42,16 +42,11 @@ public class NewsController {
     @Autowired
     private ReportService reportService;
 
-    @RequestMapping("/toList")
+    @RequestMapping({"", "/toList"})
     public String toList(@CookieValue("adminId") int adminId, Model model) {
         String name = adminService.getAccountById(adminId);
         model.addAttribute("name", name);
         return "list";
-    }
-
-    @RequestMapping("/toIndex")
-    public String toIndex() {
-        return "index";
     }
 
     @RequestMapping("/toAddNews")

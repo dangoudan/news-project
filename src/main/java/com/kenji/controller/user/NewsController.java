@@ -126,7 +126,7 @@ public class NewsController {
         return newsIdList.size();
     }
 
-    @RequestMapping("/toNewsList")
+    @RequestMapping({"", "/toNewsList"})
     public String toNewsList(Model model, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         int tagsId = tagsService.getIdByTag("校园资讯");
         List<Integer> newsId = newsTagsMappingService.getNewsIdByTagsId(tagsId);

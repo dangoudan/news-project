@@ -6,15 +6,18 @@ import com.kenji.domain.User;
 import com.kenji.service.UserService;
 import com.kenji.util.FileUploadUtil;
 import com.kenji.util.ResponseUtil;
+import com.kenji.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Controller("userLoginController")
 @RequestMapping("/user")
@@ -36,9 +39,18 @@ public class LoginController {
         return "userRegister";
     }
 
+    @RequestMapping("/toUpdatePwd")
+    public String updatePwd() {
+        return "updatePwd";
+    }
+
     @RequestMapping("/login")
     public void login(User user, boolean auto, HttpServletResponse response) throws IOException {
-        System.out.println(user);
+        boolean status = userService.getStatus(user.getAccount());
+        if(!status) {
+            ResponseUtil.writeJSON(response,ResponseUtil.ResponseEnum.FAIL,"当前用户已被封禁，请等待解禁",null);
+            return;
+        }
         boolean result = userService.login(user);
         if(!result){
             ResponseUtil.writeJSON(response,ResponseUtil.ResponseEnum.FAIL,"用户名或密码有误",null);
@@ -63,7 +75,7 @@ public class LoginController {
             String email = params.get("email");
             JSONArray jsonArray = JSON.parseArray(params.get("pic"));
             String picUrl = jsonArray.getString(0);
-            User user = new User(0, account, password, email, picUrl);
+            User user = new User(0, account, password, email, picUrl, 0, TimeUtil.getNow());
             userService.create(user);
             ResponseUtil.writeJSON(response,ResponseUtil.ResponseEnum.OK,"注册成功",null);
         } catch (FileUploadUtil.SuffixNotMatchException e) {
@@ -85,6 +97,14 @@ public class LoginController {
         }else {
             ResponseUtil.writeJSON(response,ResponseUtil.ResponseEnum.OK,"用户名可用",null);
         }
+    }
+
+    @ResponseBody
+    @RequestMapping("/updatePwd")
+    public String updatePwd(String account, String password, String oldPassword) {
+        boolean flag = userService.updatePassword(password, oldPassword, account);
+        if(flag) return "OK";
+        return "FAIL";
     }
 
 }

@@ -40,6 +40,11 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     @Override
+    public List<Reply> getLatestCommentReply(String userName, List<Integer> commentId) {
+        return dao.getLatestCommentReply(userName, commentId);
+    }
+
+    @Override
     public int getReplyCount(int commentId) {
         return dao.getReplyCount(commentId);
     }
@@ -72,5 +77,15 @@ public class ReplyServiceImpl implements ReplyService {
     @Override
     public void delReplyThumbs(int id) {
         dao.delReplyThumbs(id);
+    }
+
+    @Override
+    public void updateUserName(String userName, String oldUserName) {
+        dao.updateUserName(userName, oldUserName);
+    }
+
+    @Override
+    public void updateRepliedName(String repliedName, String oldRepliedName) {
+        dao.updateRepliedName(repliedName, oldRepliedName);
     }
 }

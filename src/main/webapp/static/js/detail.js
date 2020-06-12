@@ -400,3 +400,6 @@ function setHotClick() {
     }
 }
 
+function toLogin() {
+    window.location.href = "/user/toLogin"
+}

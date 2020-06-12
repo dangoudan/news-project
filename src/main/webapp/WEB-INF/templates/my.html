@@ -6,7 +6,7 @@
     <link rel="stylesheet" th:href="@{/static/css/my.css}">
     <script src="/static/js/jquery.js"></script>
 </head>
-<body>
+<body style="background-color: #f5f5f5">
 
 <!-- 头部 -->
 <div class="loginMod">
@@ -60,7 +60,7 @@
                 </a>
             </div>
             <div class="quickArea menu">
-                <a href="/user/toMy?type=record" class="quickLink" title="我的记录" target="_blank">
+                <a href="/user/toMy?type=reply" class="quickLink" title="我的消息" target="_blank">
                     <em class="qcollect"></em>
                     <span></span>
                 </a>
@@ -76,7 +76,7 @@
 </div>
 
 <!-- 主体 -->
-<div class="layout clearfix">
+<div class="layout clearfix" style="background-color: white">
     <div class="left">
         <div class="userMod">
             <div class="pt">
@@ -105,11 +105,17 @@
                     <li>
                         <a href="javascript:" class="nav03">
                             <span class="icon"></span>
-                            浏览记录
+                            我的消息
                         </a>
                     </li>
                     <li>
                         <a href="javascript:" class="nav04">
+                            <span class="iconfont iconliulanjilu"></span>
+                            浏览记录
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:" class="nav05">
                             <span class="icon"></span>
                             个人设置
                         </a>
@@ -209,6 +215,39 @@
                 </div>
             </div>
         </div>
+        <div class="reply hidden">
+            <div class="mycenter-wrap">
+                <div class="mycenter-main">
+                    <div class="mycenter-short">
+                        <div id="replywrapper">
+                            <p class="my-short-total news_short">
+                                您共有<em class="news_short_num"></em>条消息
+                            </p>
+                            <ul class="reply-list">
+<!--                                <li class="np-post">-->
+<!--                                    <div class="np-post-body">-->
+<!--                                        <div class="np-post-content font16"> jeffhardy回复您的消息：这是几把哪的日本大学生 </div>-->
+<!--                                        <div class="news_title">-->
+<!--                                            <p>-->
+<!--                                                <a href="">《啊？超半数日本大学生没看过《龙珠》》</a>-->
+<!--                                            </p>-->
+<!--                                        </div>-->
+<!--                                        <div class="np-post-footer">-->
+<!--                                                <span class="coral-r font14">-->
+<!--                                                    <a href="" class="np-btn-delete">删除</a>-->
+<!--                                                </span>-->
+<!--                                            <span class="font14">2016/10/25 下午5:36 &nbsp;&nbsp;&nbsp;&nbsp;-->
+<!--                                                </span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+                            </ul>
+                        </div>
+                        <div class="loadMycomment reply-more">加载更多</div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="history hidden">
             <div class="relatedFeed">
                 <ul>
@@ -266,7 +305,7 @@
             </div>
             <div class="loadMycomment history-more">加载更多</div>
         </div>
-        <div class="iSetup  hidden">
+        <div class="iSetup hidden">
             <div class="jbzlMod">
                 <div class="title">
                     <h2>基本资料</h2>
@@ -274,19 +313,35 @@
                 <div class="txt">
                     <p>
                         <strong>帐号：</strong>
-                        <span></span>
+                        <input type="text" class="inputMsg dis" disabled>
                     </p>
                     <p>
-                        <strong>email：</strong>
-                        <span></span>
+                        <strong>邮箱：</strong>
+                        <input type="text" class="inputMsg dis" disabled>
                     </p>
                 </div>
+                <div class="pic">
+                    <strong>头像：</strong>
+                    <div class="img_wrap">
+<!--                        <div class="add-icon"></div>-->
+<!--                        <div class="box-upload-form">-->
+<!--                            <input type="file" class="box-upload-file" id="file">-->
+<!--                        </div>-->
+                        <img src="" alt="" class="pic-img">
+                        <i class="del-icon" style="display: none"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-update">
+                <div class="updateMsg">修改信息</div>
+<!--                <div class="confirm">确认修改</div>-->
             </div>
         </div>
     </div>
 </div>
 <script src="/static/js/format.js"></script>
 <script src="/static/js/jumpMsg.js"></script>
+<script src="/static/js/updateMsg.js"></script>
 <script type="text/javascript" th:inline="javascript">
 
     let favorMore = {
@@ -307,11 +362,18 @@
         total: 0
     };
 
+    let replyMore = {
+        offset: 1,
+        size: 10,
+        total: 0
+    };
+
     (function() {
         let type = [[${type}]];
         console.log(type);
         getFavorCount();
         getUserCommentCount();
+        getRepliedUserCount();
         getHistoryCount();
         switch (type) {
             case 'favor':
@@ -321,14 +383,24 @@
                 $('.right .favor').addClass('hidden');
                 $('.right .wraper').removeClass('hidden');
                 break;
-            case 'record':
+            case 'reply':
                 $('.navMod li.now').removeClass('now').next().next().addClass('now');
+                $('.right .favor').addClass('hidden');
+                $('.right .reply').removeClass('hidden');
+                break;
+            case 'record':
+                $('.navMod li.now').removeClass('now').next().next().next().addClass('now');
                 $('.right .favor').addClass('hidden');
                 $('.right .history').removeClass('hidden');
                 break;
+            case 'myMsg':
+                $('.navMod li.now').removeClass('now').next().next().next().next().addClass('now');
+                $('.right .favor').addClass('hidden');
+                $('.right .iSetup').removeClass('hidden');
         }
         favor(0, 10);
         comment(0, 10);
+        reply(0, 10);
         history(0, 10);
     })();
 
@@ -350,6 +422,18 @@
             datatype: 'json',
             success(data) {
                 historyMore.total = data;
+            }
+        });
+    }
+
+    function getRepliedUserCount() {
+        $.ajax({
+            url: '/user/getRepliedUserCount',
+            type: 'get',
+            dataType: 'json',
+            async: false,
+            success(data) {
+                replyMore.total = data;
             }
         });
     }
@@ -399,6 +483,14 @@
         }
     });
 
+    $('.reply-more').click(function () {
+        reply(replyMore.offset * replyMore.size, replyMore.size);
+        replyMore.offset++;
+        if (replyMore.offset * replyMore.size >= replyMore.total) {
+            $(this).remove();
+        }
+    });
+
     $('.history-more').click(function () {
         history(historyMore.offset * historyMore.size, historyMore.size);
         historyMore.offset++;
@@ -406,6 +498,9 @@
             $(this).remove();
         }
     });
+
+
+
 
     function favor(offset, size) {
         $.ajax({
@@ -466,8 +561,8 @@
     }
 
     function delFavor() {
-        $('.dislike').unbind('click');
-        $('.dislike').click(function () {
+        $('.favor .dislike').unbind('click');
+        $('.favor .dislike').click(function () {
             let newsId = $(this).data('id');
             $.ajax({
                 url: '/user/cancelFavor',
@@ -478,7 +573,7 @@
                 dataType: 'json',
             }).then(data => {
                 if(data.status === 'OK') {
-                    jumpBlock("删除成功");
+                    jumpBlock("取消成功");
                     $(this).closest('.item').remove();
                 }
             });
@@ -487,7 +582,7 @@
 
     function comment(offset, size) {
         let count = commentMore.total;
-        $('.news_short_num').text(count);
+        $('.wraper .news_short_num').text(count);
         $.ajax({
             url: '/user/getUserCommentAndReply',
             type: 'get',
@@ -504,7 +599,7 @@
                     '</p></div>' +
                     '<div class="np-post-footer">' +
                     '<span class="coral-r font14">' +
-                    '<a href="javascript:void 0" data-id="' + data[i].id + '" data-comment-or-reply="' + data[i].commentOrReply + '" class="np-btn-delete">删除</a>' +
+                    '<a href="javascript:void 0" data-id="' + data[i].id + '" data-comment-or-reply="' + data[i].commentOrReply + '" class="np-btn-delete delCom">删除</a>' +
                     '</span>' +
                     '<span class="font14">' + timestampToTime1(data[i].ctime) + ' &nbsp;&nbsp;&nbsp;&nbsp;' +
                     '</span></div></div></li>'));
@@ -514,8 +609,8 @@
     }
 
     function delComment() {
-        $('.np-btn-delete').unbind('click');
-        $('.np-btn-delete').click(function () {
+        $('.delCom').unbind('click');
+        $('.delCom').click(function () {
             let id = $(this).data('id');
             let commentOrReply = $(this).data('commentOrReply');
             $.ajax({
@@ -531,6 +626,33 @@
                     $(this).closest('.np-post').remove();
                 }
             });
+        })
+    }
+
+    function reply(offset, size) {
+        let count = replyMore.total;
+        $('.reply .news_short_num').text(count);
+        $.ajax({
+            url: '/user/getRepliedUserMsg',
+            type: 'get',
+            dataType: 'json'
+        }).then(data => {
+            console.log(data);
+            for(let i = offset; i < offset + size && i < data.length; i++) {
+                $('.reply-list').append($('<li class="np-post">' +
+                    '<div class="np-post-body">' +
+                    '<div class="np-post-content font16"> '+ data[i].username +'回复您的消息：' + data[i].content + ' </div>' +
+                    '<div class="news_title">' +
+                    '<p>' +
+                    '<a href="/user/toDetail?id=' + data[i].newsId + '">' + data[i].title + '</a>' +
+                    '</p></div>' +
+                    '<div class="np-post-footer">' +
+                    '<span class="coral-r font14">' +
+                    '<a href="/user/toDetail?id=' + data[i].newsId + '" class="lookMsg">查看</a>' +
+                    '</span>' +
+                    '<span class="font14">' + timestampToTime1(data[i].ctime) + ' &nbsp;&nbsp;&nbsp;&nbsp;' +
+                    '</span></div></div></li>'));
+            }
         })
     }
 
@@ -590,8 +712,8 @@
     }
 
     function delRecord() {
-        $('.dislike').unbind('click');
-        $('.dislike').click(function () {
+        $('.history .dislike').unbind('click');
+        $('.history .dislike').click(function () {
             let newsId = $(this).data('id');
             $.ajax({
                 url: '/user/delRecord',
@@ -620,17 +742,17 @@
             switch ($(e.target).attr('class')) {
                 case 'nav01':
                     $('.right .favor').removeClass('hidden');
-                    // favor();
                     return;
                 case 'nav02':
                     $('.right .wraper').removeClass('hidden');
-                    // comment();
                     return;
                 case 'nav03':
-                    $('.right .history').removeClass('hidden');
-                    // history();
+                    $('.right .reply').removeClass('hidden');
                     return;
                 case 'nav04':
+                    $('.right .history').removeClass('hidden');
+                    return;
+                case 'nav05':
                     $('.right .iSetup').removeClass('hidden');
                     return;
             }

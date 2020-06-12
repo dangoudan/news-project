@@ -2,7 +2,7 @@ let lastEditRange; //最后光标对象
 //插入图片第一种方法
 let fileArr = [];
 $('#imgs').change(function () {
-    $('.ProseMirror').focus();
+    // $('.ProseMirror').focus();
     // 获取选定对象
     let selection = getSelection();
     // 判断是否有最后光标对象存在
@@ -56,13 +56,14 @@ $('.iconbold').click(function () {
         selection.removeAllRanges();
         selection.addRange(lastEditRange)
     }
-    if ($(this).hasClass('icolor')) {
-        $(this).removeClass('icolor');
-        document.execCommand('bold', false, null);
-    } else {
-        $(this).addClass('icolor');
-        document.execCommand('bold', false, null);
-    }
+    document.execCommand('bold', false, null);
+    // if ($(this).hasClass('icolor')) {
+    //     $(this).removeClass('icolor');
+    //
+    // } else {
+    //     $(this).addClass('icolor');
+    //     document.execCommand('bold', false, null);
+    // }
 });
 
 $('.iconxiahuaxian').click(function () {
@@ -131,7 +132,7 @@ function setRange(ele) {
     lastEditRange.selectNodeContents(ele); //选中节点的内容
     lastEditRange.collapse(true);
     if (ele.innerHTML.length > 0 && ele.innerHTML != '<br>') {
-        lastEditRange.setStart(ele.childNodes[0], 3);
+        lastEditRange.setStart(ele.childNodes[0], ele.childNodes[0].length);
     }
     let selection = getSelection();
     selection.removeAllRanges();

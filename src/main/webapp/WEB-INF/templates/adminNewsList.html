@@ -239,7 +239,7 @@
     let pageTotal = 0;
     let total = 0;
     let descOrAsc = 'desc';//默认
-    let search = 'n';
+    let search = 'n';//n表示退出搜索模式，y表示搜索模式
 
 
     function timeClick() {
@@ -430,10 +430,10 @@
         }else if(search === 'y') {
             nextSearch((pageNum - 1) * pageSize, pageSize);
         }
-        if(pageNum === 1) {
+        if(pageNum === 1 && pageTotal !== 1) {
             setFirstPage();
             delLastPage();
-        }else if(pageNum === pageTotal) {
+        }else if(pageNum === pageTotal && pageTotal !== 1) {
             setLastPage();
             delFirstPage();
         }

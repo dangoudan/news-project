@@ -46,7 +46,7 @@
                     </a>
                 </div>
                 <div class="quickArea menu">
-                    <a href="/user/toMy?type=record" class="quickLink" title="我的记录" target="_blank">
+                    <a href="/user/toMy?type=reply" class="quickLink" title="我的消息" target="_blank">
                         <em class="qcollect"></em>
                         <span></span>
                     </a>
@@ -72,7 +72,7 @@
             <div class="searchBar">
                 <div class="clearfix">
                     <div class="left search-content">
-                        <input type="text" autocomplete="off" placeholder="搜你想搜的">
+                        <input type="text" autocomplete="off" placeholder="搜你想搜的" class="search-val">
                     </div>
                     <div class="right">
                         <button class="search-btn" onclick="toSearch()">搜索</button>
@@ -116,6 +116,7 @@
             type: 'get',
             dataType: 'json',
             success(data) {
+                $('.search-val').val(keyword);
                 count = data;
                 next();
             }

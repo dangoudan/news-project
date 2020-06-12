@@ -27,8 +27,8 @@ com\kenji\service\impl\CommentServiceImpl.class
 com\kenji\dao\FavoriteDao.class
 com\kenji\service\TagsService.class
 com\kenji\service\impl\FavoriteServiceImpl.class
+com\kenji\controller\admin\UserListController.class
 com\kenji\service\ViewRecordService.class
-com\kenji\util\SQLUtil.class
 com\kenji\domain\Reply.class
 com\kenji\service\FavoriteService.class
 com\kenji\service\NewsTagsMappingService.class
@@ -51,7 +51,6 @@ com\kenji\controller\admin\TagsController.class
 com\kenji\util\ResponseUtil$ResponseEnum.class
 com\kenji\controller\user\ReplyController.class
 com\kenji\service\AdminService.class
-com\kenji\controller\TestController.class
 com\kenji\domain\User.class
 com\kenji\domain\Comment.class
 com\kenji\domain\News.class

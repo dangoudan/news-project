@@ -2,6 +2,7 @@ package com.kenji.controller.user;
 
 import com.alibaba.fastjson.JSONObject;
 import com.kenji.domain.Comment;
+import com.kenji.domain.News;
 import com.kenji.domain.Reply;
 import com.kenji.domain.User;
 import com.kenji.service.CommentService;
@@ -19,10 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/user")
@@ -147,6 +145,43 @@ public class CommentController {
         }
 
         return InsertSortUtil.insertSort(mapList);
+    }
+
+    @ResponseBody
+    @RequestMapping("/getRepliedUserMsg")
+    public List<Map<String, Object>> getRepliedUserMsg(@CookieValue("userId") int userId) {
+        User user = userService.getUserById(userId);
+        List<Integer> commentIdList = commentService.getCommentId(userId);
+        if(commentIdList.size() == 0) {
+            commentIdList.add(0);
+        }
+        List<Reply> replyList = replyService.getLatestCommentReply(user.getAccount(), commentIdList);
+
+        List<Map<String, Object>> maps = new ArrayList<>();
+        for(Reply reply : replyList) {
+            int newsId = commentService.getNewsIdByCommentId(reply.getCommentId());
+            String title = commentService.getContentById(reply.getCommentId());
+            Map<String, Object> map = new HashMap<>();
+            map.put("username", reply.getUserName());
+            map.put("title", title);
+            map.put("newsId", newsId);
+            map.put("content", reply.getContent());
+            map.put("id", reply.getId());
+            map.put("ctime", reply.getCtime());
+            maps.add(map);
+        }
+        return maps;
+    }
+
+    @ResponseBody
+    @RequestMapping("/getRepliedUserCount")
+    public int getRepliedUserCount(@CookieValue("userId") int userId) {
+        User user = userService.getUserById(userId);
+        List<Integer> commentIdList = commentService.getCommentId(userId);
+        if(commentIdList.size() == 0) {
+            commentIdList.add(0);
+        }
+        return replyService.getLatestCommentReply(user.getAccount(), commentIdList).size();
     }
 
     @ResponseBody
